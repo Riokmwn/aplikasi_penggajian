@@ -28,7 +28,7 @@
                         <div class="icon">
                             <i class="ion ion-android-person"></i>
                         </div>
-                        <a href="<?= base_url('C_Master/data_user') ?>" class="small-box-footer">More info <i
+                        <a href="<?= base_url('C_User/data_user') ?>" class="small-box-footer">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                         <div class="icon">
                             <i class="ion ion-android-people"></i>
                         </div>
-                        <a href="<?= base_url('C_Master/data_karyawan') ?>" class="small-box-footer">More info <i
+                        <a href="<?= base_url('C_Karyawan/data_karyawan') ?>" class="small-box-footer">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                         <div class="icon">
                             <i class="ion ion-man"></i>
                         </div>
-                        <a href="<?= base_url('C_Master/data_jabatan') ?>" class="small-box-footer">More info <i
+                        <a href="<?= base_url('C_Jabatan/data_jabatan') ?>" class="small-box-footer">More info <i
                                 class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>

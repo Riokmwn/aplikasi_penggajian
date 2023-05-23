@@ -53,10 +53,10 @@
                                                 Password</button>
                                         </td>
                                         <td>
-                                            <a href="<?= base_url('C_Master/edit_user/' . $user->id_users) ?>"
+                                            <a href="<?= base_url('C_User/edit_user/' . $user->id_users) ?>"
                                                 class="btn btn-sm btn-warning">Ubah</a>
                                             <button class="btn btn-sm btn-danger delete"
-                                                data-url="<?= base_url('C_Master/delete_users/' . $user->id_users) ?>">Hapus</button>
+                                                data-url="<?= base_url('C_User/delete_users/' . $user->id_users) ?>">Hapus</button>
                                         </td>
                                     </tr>
                                     <?php } ?>

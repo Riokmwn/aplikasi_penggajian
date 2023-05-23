@@ -27,33 +27,38 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <?php if (empty($karyawan)) { ?>
-                                <p>Data Belum Ada</p>
+                            <p>Data Belum Ada</p>
                             <?php } else { ?>
-                                <table class="table table-bordered table-striped text-center">
-                                    <thead>
-                                        <tr>
-                                            <th>No</th>
-                                            <th>Nik Karyawan</th>
-                                            <th>Nama Karyawan</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php
+                            <table class="table table-bordered table-striped text-center">
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Nik Karyawan</th>
+                                        <th>Nama Karyawan</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
                                         $no = 1;
                                         foreach ($karyawan as $k) { ?>
-                                            <tr>
-                                                <td><?= $no++; ?></td>
-                                                <td><?= $k->nik_karyawan; ?></td>
-                                                <td><?= $k->karyawan_nama; ?></td>
-                                                <td>
-                                                    <a href="<?= base_url('C_Master/edit_user/' . $k->id_users) ?>" class="btn btn-sm btn-warning">Ubah</a>
-                                                    <button class="btn btn-sm btn-danger delete" data-url="<?= base_url('C_Master/delete_users/' . $k->id_users) ?>">Hapus</button>
-                                                </td>
-                                            </tr>
-                                        <?php } ?>
-                                    </tbody>
-                                </table>
+                                    <tr>
+                                        <td><?= $no++; ?></td>
+                                        <td><?= $k->nik_karyawan; ?></td>
+                                        <td><?= $k->karyawan_nama; ?></td>
+                                        <td>
+                                            <button data-toggle="modal"
+                                                data-target="#detailKaryawan<?= $k->id_karyawan ?>"
+                                                class="btn btn-sm btn-success">Detail</button>
+                                            <a href="<?= base_url('C_Karyawan/edit_karyawan/' . $k->id_karyawan) ?>"
+                                                class="btn btn-sm btn-warning">Ubah</a>
+                                            <button class="btn btn-sm btn-danger delete"
+                                                data-url="<?= base_url('C_Karyawan/delete_karyawan/' . $k->id_karyawan) ?>">Hapus</button>
+                                        </td>
+                                    </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
                             <?php } ?>
                         </div>
                         <!-- /.card-body -->
@@ -71,4 +76,5 @@
 
 <?php
 $this->load->view('backend/master/karyawan/modal/add_karyawan');
+$this->load->view('backend/master/karyawan/modal/detail_karyawan');
 ?>

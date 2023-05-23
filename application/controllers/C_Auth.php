@@ -107,6 +107,6 @@ class C_Auth extends CI_Controller
 
 		$this->M_User_Model->update_password($id_users, $new_password);
 
-		redirect('C_Master/data_user');
+		redirect('C_User/data_user');
 	}
 }

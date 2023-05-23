@@ -1,15 +1,16 @@
+<!-- Script for Delete Data SweetAlert -->
 <script>
     $(function() {
-        $('.reset-password').click(function(e) {
+        $('.delete').click(function(e) {
             e.preventDefault();
             var url = $(this).data('url');
             Swal.fire({
-                title: "Reset Password",
-                text: "Apakah Anda yakin ingin mereset password user ini?",
+                title: "Apakah Anda yakin?",
+                text: "Data akan dihapus secara permanen!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#dc3545",
-                confirmButtonText: "Ya, reset password!",
+                confirmButtonText: "Ya, hapus data!",
                 cancelButtonText: "Tidak, batalkan!",
             }).then((result) => {
                 if (result.isConfirmed) {
@@ -41,8 +42,8 @@
 
     function showDeleteErrorAlert(errorMessage) {
         Swal.fire({
-            title: "Gagal Mereset Password",
-            text: "Terjadi kesalahan saat mereset password: " + errorMessage,
+            title: "Gagal Menghapus Data",
+            text: "Terjadi kesalahan saat menghapus data: " + errorMessage,
             icon: "error",
             confirmButtonColor: "#dc3545",
             confirmButtonText: "Tutup"
@@ -51,7 +52,7 @@
 
     function cancelDeletion() {
         Swal.fire({
-            title: "Reset Password Dibatalkan",
+            title: "Penghapusan Data Dibatalkan",
             icon: "warning",
             confirmButtonColor: "#3085d6",
             confirmButtonText: "Tutup"

@@ -6,6 +6,7 @@ class C_Transaksi extends CI_Controller
     function __construct()
     {
         parent::__construct();
+        $this->load->model('M_User_Model');
         if (!$this->session->userdata('username')) {
             redirect('C_Auth');
         }

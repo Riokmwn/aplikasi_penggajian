@@ -10,14 +10,13 @@
             </div>
             <div class="modal-body">
                 <?php echo validation_errors(); ?>
-                <?php echo form_open('C_Master/add_user'); ?>
+                <?php echo form_open('C_User/add_user'); ?>
                 <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" autocomplete="off"
-                        value="<?php echo set_value('username'); ?>">
+                    <label for="username">Username:</label>
+                    <input type="text" class="form-control" id="username" name="username" autocomplete="off" value="<?php echo set_value('username'); ?>">
                 </div>
                 <div class="form-group">
-                    <label for="nama_pengguna">Nama Pengguna</label>
+                    <label for="nama_pengguna">Nama Pengguna:</label>
                     <input type="text" class="form-control" id="nama_pengguna" name="nama_pengguna" autocomplete="off">
                 </div>
             </div>

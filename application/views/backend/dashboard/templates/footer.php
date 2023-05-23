@@ -45,10 +45,12 @@
 <script src="<?= base_url('assets/backend/') ?>dist/js/pages/dashboard.js"></script>
 
 <?php
-$this->load->view('backend/master/user/footer/delete_user');
 $this->load->view('backend/master/user/footer/reset_password');
+$this->load->view('backend/master/jabatan/footer/number');
+$this->load->view('backend/master/utility/footer/delete');
+$this->load->view('backend/master/utility/footer/back-button');
+$this->load->view('backend/master/utility/footer/button-nav-link');
 ?>
-
 </body>
 
 </html>
