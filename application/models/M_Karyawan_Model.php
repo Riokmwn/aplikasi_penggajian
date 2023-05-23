@@ -17,6 +17,21 @@ class M_Karyawan_Model extends CI_Model
         return $this->db->get_where('karyawan', array('id_karyawan' => $id_karyawan))->row();
     }
 
+    function get_nik_karyawan_by_id($id_karyawan)
+    {
+        $this->db->select('nik_karyawan');
+        $this->db->from('karyawan');
+        $this->db->where('id_karyawan', $id_karyawan);
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            $row = $query->row();
+            return $row->nik_karyawan;
+        }
+
+        return null;
+    }
+
     function add_karyawan($data)
     {
         return $this->db->insert('karyawan', $data);

@@ -33,7 +33,7 @@ class C_Karyawan extends CI_Controller
 
     function add_karyawan()
     {
-        $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', 'required|is_unique[karyawan.nik_karyawan]|trim');
+        $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', 'required|is_unique[karyawan.nik_karyawan]|numeric|trim|min_length[16]');
         $this->form_validation->set_rules('nama_karyawan', 'Nama Karyawan', 'required|trim');
         $this->form_validation->set_rules('tanggal_masuk', 'Tanggal Masuk', 'required|trim');
         $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required|trim');
@@ -70,7 +70,14 @@ class C_Karyawan extends CI_Controller
 
     function edit_karyawan($id_karyawan)
     {
-        $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', 'required|is_unique[karyawan.nik_karyawan]|trim');
+        $existing_nik = $this->M_Karyawan_Model->get_nik_karyawan_by_id($id_karyawan);
+        $nik_rule = 'required|numeric|trim|min_length[16]';
+        if (isset($_POST['nik_karyawan']) && $_POST['nik_karyawan'] != $existing_nik) {
+            // Nik berubah, terapkan validasi is_unique
+            $nik_rule .= '|is_unique[karyawan.nik_karyawan]';
+        }
+
+        $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', $nik_rule);
         $this->form_validation->set_rules('nama_karyawan', 'Nama Karyawan', 'required|trim');
         $this->form_validation->set_rules('tanggal_masuk', 'Tanggal Masuk', 'required|trim');
         $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required|trim');

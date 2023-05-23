@@ -1,5 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="addJabatan" tabindex="-1" role="dialog" aria-labelledby="addJabatanTitle" aria-hidden="true">
+<div class="modal fade" id="addJabatan" tabindex="-1" role="dialog" aria-labelledby="addJabatanTitle"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -9,23 +10,30 @@
                 </button>
             </div>
             <div class="modal-body">
-                <?php echo validation_errors(); ?>
                 <?php echo form_open('C_Jabatan/add_jabatan'); ?>
                 <div class="form-group">
                     <label for="jabatan_nama">Jabatan:</label>
-                    <input type="text" class="form-control" id="jabatan_nama" name="jabatan_nama" autocomplete="off" value="<?php echo set_value('jabatan_nama'); ?>">
+                    <input type="text" class="form-control" id="jabatan_nama" name="jabatan_nama" autocomplete="off"
+                        value="<?php echo set_value('jabatan_nama'); ?>">
+                    <?php echo form_error('jabatan_nama', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="gaji_pokok">Gaji Pokok:</label>
-                    <input type="text" class="form-control" id="gaji_pokok" name="gaji_pokok" autocomplete="off" onkeyup="formatNumber(this)" value="<?php echo set_value('gaji_pokok'); ?>">
+                    <input type="text" class="form-control" id="gaji_pokok" name="gaji_pokok" autocomplete="off"
+                        onkeyup="formatNumber(this)" value="<?php echo set_value('gaji_pokok'); ?>">
+                    <?php echo form_error('gaji_pokok', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="uang_makan">Uang Makan:</label>
-                    <input type="text" class="form-control" id="uang_makan" name="uang_makan" autocomplete="off" onkeyup="formatNumber(this)" value="<?php echo set_value('uang_makan'); ?>">
+                    <input type="text" class="form-control" id="uang_makan" name="uang_makan" autocomplete="off"
+                        onkeyup="formatNumber(this)" value="<?php echo set_value('uang_makan'); ?>">
+                    <?php echo form_error('uang_makan', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="transportasi">Transportasi:</label>
-                    <input type="text" class="form-control" id="transportasi" name="transportasi" autocomplete="off" onkeyup="formatNumber(this)" value="<?php echo set_value('transportasi'); ?>">
+                    <input type="text" class="form-control" id="transportasi" name="transportasi" autocomplete="off"
+                        onkeyup="formatNumber(this)" value="<?php echo set_value('transportasi'); ?>">
+                    <?php echo form_error('transportasi', '<small class="text-danger">', '</small>'); ?>
                 </div>
             </div>
             <div class="modal-footer">

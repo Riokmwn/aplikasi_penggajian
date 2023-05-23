@@ -30,7 +30,9 @@ class C_User extends CI_Controller
         $this->form_validation->set_rules('username', 'Username', 'required|is_unique[users.username]|trim');
 
         if ($this->form_validation->run() == FALSE) {
-            // Jika form validation tidak valid, tampilkan kembali form tambah user
+            $data['judul'] = 'Halaman Data User';
+            $data['users'] = $this->M_User_Model->get_akun_karyawan();
+
             $this->load->view('backend/dashboard/templates/header', $data);
             $this->load->view('backend/dashboard/templates/sidebar');
             $this->load->view('backend/master/user/v_data_user', $data);

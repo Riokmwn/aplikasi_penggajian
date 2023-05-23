@@ -10,20 +10,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <?php echo validation_errors(); ?>
                 <?php echo form_open('C_Karyawan/add_karyawan'); ?>
                 <div class="form-group">
                     <label for="nik_karyawan">NIK Karyawan:</label>
                     <input type="text" class="form-control" id="nik_karyawan" name="nik_karyawan" autocomplete="off"
                         value="<?php echo set_value('nik_karyawan'); ?>">
+                    <?php echo form_error('nik_karyawan', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="nama_karyawan">Nama Karyawan:</label>
-                    <input type="text" class="form-control" id="nama_karyawan" name="nama_karyawan" autocomplete="off">
+                    <input type="text" class="form-control" id="nama_karyawan" name="nama_karyawan" autocomplete="off"
+                        value="<?php echo set_value('nama_karyawan'); ?>">
+                    <?php echo form_error('nama_karyawan', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="tanggal_masuk">Tanggal Masuk Karyawan:</label>
-                    <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk">
+                    <input type="date" class="form-control" id="tanggal_masuk" name="tanggal_masuk"
+                        value="<?php echo set_value('tanggal_masuk'); ?>">
+                    <?php echo form_error('tanggal_masuk', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="jenis_kelamin">Jenis Kelamin:</label>
@@ -34,6 +38,7 @@
                         </option>
                         <?php } ?>
                     </select>
+                    <?php echo form_error('jenis_kelamin', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="jabatan_karyawan">Jabatan Karyawan:</label>
@@ -44,6 +49,7 @@
                         </option>
                         <?php } ?>
                     </select>
+                    <?php echo form_error('jabatan_karyawan', '<small class="text-danger">', '</small>'); ?>
                 </div>
                 <div class="form-group">
                     <label for="status_karyawan">Status Karyawan:</label>
@@ -54,6 +60,7 @@
                         </option>
                         <?php } ?>
                     </select>
+                    <?php echo form_error('status_karyawan', '<small class="text-danger">', '</small>'); ?>
                 </div>
             </div>
             <div class="modal-footer">
