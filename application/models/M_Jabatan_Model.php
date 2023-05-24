@@ -16,6 +16,12 @@ class M_Jabatan_Model extends CI_Model
         return $this->db->get_where('jabatan', array('id_jabatan' => $id_jabatan))->row();
     }
 
+    function search_jabatan($search)
+    {
+        $this->db->like('jabatan_nama', $search);
+        return $this->db->get('jabatan')->result();
+    }
+
     function delete_jabatan($id_jabatan)
     {
         $this->db->where('id_jabatan', $id_jabatan);

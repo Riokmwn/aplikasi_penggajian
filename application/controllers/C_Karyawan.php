@@ -19,11 +19,21 @@ class C_Karyawan extends CI_Controller
 
     function data_karyawan()
     {
-        $data['judul'] = 'Halaman Data Karyawan';
-        $data['karyawan'] = $this->M_Karyawan_Model->get_all_karyawan();
-        $data['jenis_kelamin'] = $this->M_Jenis_Kelamin_Model->get_jenis_kelamin();
-        $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
-        $data['status_karyawan'] = $this->M_Status_Karyawan_Model->get_status_karyawan();
+        $search = $this->input->get('search');
+        if ($search) {
+            $data['judul'] = 'Halaman Data Karyawan';
+            $data['search'] = $search;
+            $data['karyawan'] = $this->M_Karyawan_Model->search_nik_name_karyawan($search);
+            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin_Model->get_jenis_kelamin();
+            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
+            $data['status_karyawan'] = $this->M_Status_Karyawan_Model->get_status_karyawan();
+        } else {
+            $data['judul'] = 'Halaman Data Karyawan';
+            $data['karyawan'] = $this->M_Karyawan_Model->get_all_karyawan();
+            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin_Model->get_jenis_kelamin();
+            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
+            $data['status_karyawan'] = $this->M_Status_Karyawan_Model->get_status_karyawan();
+        }
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');

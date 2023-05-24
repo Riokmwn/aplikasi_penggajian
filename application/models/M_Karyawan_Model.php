@@ -32,6 +32,14 @@ class M_Karyawan_Model extends CI_Model
         return null;
     }
 
+    function search_nik_name_karyawan($search)
+    {
+        $this->db->like('nik_karyawan', $search);
+        $this->db->or_like('karyawan_nama', $search);
+        return $this->db->get('karyawan')->result();
+    }
+
+
     function add_karyawan($data)
     {
         return $this->db->insert('karyawan', $data);

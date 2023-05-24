@@ -19,8 +19,16 @@ class C_Jabatan extends CI_Controller
 
     function data_jabatan()
     {
-        $data['judul'] = 'Halaman Data Jabatan';
-        $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
+        $search = $this->input->get('search');
+        if ($search) {
+            $data['judul'] = 'Halaman Data Jabatan';
+            $data['search'] = $search;
+            $data['jabatan'] = $this->M_Jabatan_Model->search_jabatan($search);
+        } else {
+            $data['judul'] = 'Halaman Data Jabatan';
+            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
+        }
+
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');

@@ -32,6 +32,13 @@ class M_User_Model extends CI_Model
         return $this->db->get_where('users', array('id_users' => $id_users))->row();
     }
 
+    function search_user_karyawan($search)
+    {
+        $this->db->where('role_id', 2);
+        $this->db->like('users_name', $search);
+        return $this->db->get('users')->result();
+    }
+
     function add_user($data)
     {
         return $this->db->insert('users', $data);

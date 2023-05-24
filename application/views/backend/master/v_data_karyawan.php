@@ -12,6 +12,18 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addKaryawan">
                 Tambah Karyawan
             </button>
+
+            <!-- Search Button -->
+            <form class="mt-3" method="GET" action="<?= site_url('C_Karyawan/data_karyawan') ?>">
+                <div class="input-group mb-3">
+                    <input type="text" name="search" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div><!-- /.container-fluid -->
     </section>
 
@@ -26,7 +38,24 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <?php if (empty($karyawan)) { ?>
+                            <?php
+                            // Mengatur jumlah data per halaman
+                            $per_page = 10;
+
+                            // Menghitung jumlah total halaman
+                            $total_pages = ceil(count($karyawan) / $per_page);
+
+                            // Mengambil halaman saat ini dari URL
+                            $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                            // Menghitung offset (data awal pada halaman saat ini)
+                            $offset = ($current_page - 1) * $per_page;
+
+                            // Mengambil data siswa sesuai dengan halaman saat ini
+                            $Pegawai = array_slice($karyawan, $offset, $per_page);
+                            ?>
+
+                            <?php if (empty($Pegawai)) { ?>
                             <p>Data Belum Ada</p>
                             <?php } else { ?>
                             <table class="table table-bordered table-striped text-center">
@@ -40,10 +69,12 @@
                                 </thead>
                                 <tbody>
                                     <?php
-                                        $no = 1;
-                                        foreach ($karyawan as $k) { ?>
+                                        // $no = 1;
+                                        $start_number = ($current_page - 1) * $per_page + 1;
+                                        foreach ($Pegawai as $k) { ?>
                                     <tr>
-                                        <td><?= $no++; ?></td>
+                                        <!-- <td><?= $no++; ?></td> -->
+                                        <td><?= $start_number++; ?></td>
                                         <td><?= $k->nik_karyawan; ?></td>
                                         <td><?= $k->karyawan_nama; ?></td>
                                         <td>
@@ -62,6 +93,29 @@
                             <?php } ?>
                         </div>
                         <!-- /.card-body -->
+
+                        <!-- Pagination -->
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
+                                    <a class="page-link"
+                                        href="<?= base_url('C_Karyawan/data_karyawan/index?page=' . ($current_page - 1)) ?>">Previous</a>
+                                </li>
+                                <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                                <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
+                                    <a class="page-link"
+                                        href="<?= base_url('C_Karyawan/data_karyawan/index?page=' . $i) ?>">
+                                        <?= $i ?>
+                                    </a>
+                                </li>
+                                <?php } ?>
+                                <li class="page-item <?= ($current_page == $total_pages) ? 'disabled' : '' ?>">
+                                    <a class="page-link"
+                                        href="<?= base_url('C_Karyawan/data_karyawan/index?page=' . ($current_page + 1)) ?>">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+
                     </div>
                     <!-- /.card -->
                 </div>

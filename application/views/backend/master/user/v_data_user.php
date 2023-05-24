@@ -12,6 +12,19 @@
             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addModal">
                 Tambah Akun
             </button>
+
+            <!-- Search Button -->
+            <form class="mt-3" method="GET" action="<?= site_url('C_User/data_user') ?>">
+                <div class="input-group mb-3">
+                    <input type="text" name="search" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+
         </div><!-- /.container-fluid -->
     </section>
 
@@ -27,41 +40,38 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <?php if (empty($users)) { ?>
-                            <p>Data Belum Ada</p>
+                                <p>Data Belum Ada</p>
                             <?php } else { ?>
-                            <table class="table table-bordered table-striped text-center">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Username</th>
-                                        <th>Nama Pengguna</th>
-                                        <th>Password</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
+                                <table class="table table-bordered table-striped text-center">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Username</th>
+                                            <th>Nama Pengguna</th>
+                                            <th>Password</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
                                         $no = 1;
                                         foreach ($users as $user) { ?>
-                                    <tr>
-                                        <td><?= $no++; ?></td>
-                                        <td><?= $user->username; ?></td>
-                                        <td><?= $user->users_name; ?></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-success reset-password"
-                                                data-url="<?= base_url('C_Auth/reset_password/' . $user->id_users) ?>">Reset
-                                                Password</button>
-                                        </td>
-                                        <td>
-                                            <a href="<?= base_url('C_User/edit_user/' . $user->id_users) ?>"
-                                                class="btn btn-sm btn-warning">Ubah</a>
-                                            <button class="btn btn-sm btn-danger delete"
-                                                data-url="<?= base_url('C_User/delete_users/' . $user->id_users) ?>">Hapus</button>
-                                        </td>
-                                    </tr>
-                                    <?php } ?>
-                                </tbody>
-                            </table>
+                                            <tr>
+                                                <td><?= $no++; ?></td>
+                                                <td><?= $user->username; ?></td>
+                                                <td><?= $user->users_name; ?></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-success reset-password" data-url="<?= base_url('C_Auth/reset_password/' . $user->id_users) ?>">Reset
+                                                        Password</button>
+                                                </td>
+                                                <td>
+                                                    <a href="<?= base_url('C_User/edit_user/' . $user->id_users) ?>" class="btn btn-sm btn-warning">Ubah</a>
+                                                    <button class="btn btn-sm btn-danger delete" data-url="<?= base_url('C_User/delete_users/' . $user->id_users) ?>">Hapus</button>
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+                                </table>
                             <?php } ?>
                         </div>
                         <!-- /.card-body -->

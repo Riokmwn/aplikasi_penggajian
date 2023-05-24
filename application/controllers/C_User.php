@@ -15,8 +15,15 @@ class C_User extends CI_Controller
 
     function data_user()
     {
-        $data['judul'] = 'Halaman Data User';
-        $data['users'] = $this->M_User_Model->get_akun_karyawan();
+        $search = $this->input->get('search');
+        if ($search) {
+            $data['judul'] = 'Halaman Data User';
+            $data['search'] = $search;
+            $data['users'] = $this->M_User_Model->search_user_karyawan($search);
+        } else {
+            $data['judul'] = 'Halaman Data User';
+            $data['users'] = $this->M_User_Model->get_akun_karyawan();
+        }
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
