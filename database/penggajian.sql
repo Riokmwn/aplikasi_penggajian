@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 23, 2023 at 05:10 PM
+-- Generation Time: May 30, 2023 at 02:44 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -89,6 +89,32 @@ CREATE TABLE `karyawan` (
 INSERT INTO `karyawan` (`id_karyawan`, `nik_karyawan`, `karyawan_nama`, `karyawan_tanggal_masuk`, `jenis_kelamin_id`, `jabatan_id`, `status_karyawan_id`) VALUES
 (1, '1234567891011123', 'Arif Suganda', '2023-05-01', 1, 1, 1),
 (3, '1234567891011124', 'RioRio', '2023-05-01', 1, 4, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rekap_absen`
+--
+
+CREATE TABLE `rekap_absen` (
+  `karyawan_id` int(11) NOT NULL,
+  `rekap_absen_bulan` varchar(8) NOT NULL,
+  `rekap_absen_tahun` varchar(4) NOT NULL,
+  `rekap_absen_hadir` int(2) NOT NULL,
+  `rekap_absen_telat` int(2) NOT NULL,
+  `rekap_absen_izin` int(2) NOT NULL,
+  `rekap_absen_sakit` int(2) NOT NULL,
+  `rekap_absen_tidak_hadir` int(2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `rekap_absen`
+--
+
+INSERT INTO `rekap_absen` (`karyawan_id`, `rekap_absen_bulan`, `rekap_absen_tahun`, `rekap_absen_hadir`, `rekap_absen_telat`, `rekap_absen_izin`, `rekap_absen_sakit`, `rekap_absen_tidak_hadir`) VALUES
+(1, 'Maret', '2022', 1, 2, 3, 4, 5),
+(3, 'Maret', '2022', 6, 7, 8, 9, 10),
+(1, 'Januari', '2023', 12, 13, 14, 15, 16);
 
 -- --------------------------------------------------------
 
@@ -198,7 +224,7 @@ ALTER TABLE `status_karyawan`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_users` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
