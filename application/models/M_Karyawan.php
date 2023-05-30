@@ -1,5 +1,5 @@
 <?php
-class M_Karyawan_Model extends CI_Model
+class M_Karyawan extends CI_Model
 {
     function get_all_karyawan()
     {

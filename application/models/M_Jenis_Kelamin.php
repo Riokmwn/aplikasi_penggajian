@@ -1,5 +1,5 @@
 <?php
-class M_Jenis_Kelamin_Model extends CI_Model
+class M_Jenis_Kelamin extends CI_Model
 {
     public function get_jenis_kelamin()
     {

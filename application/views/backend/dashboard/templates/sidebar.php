@@ -38,7 +38,7 @@
 
                 <?php
                 $username = $this->session->userdata('username');
-                $user = $this->M_User_Model->get_user($username);
+                $user = $this->M_User->get_user($username);
                 ?>
 
                 <div class="info">
@@ -58,7 +58,7 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item menu-open">
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-user-friends"></i>
                             <p>
@@ -86,7 +86,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item menu-open">
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-money-bill-wave"></i>
                             <p>
@@ -96,18 +96,18 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?= base_url('C_Transaksi/rekap_absen') ?>" class="nav-link">
+                                <a href="<?= base_url('C_Rekap_Absen/data_rekap_absen') ?>" class="nav-link">
                                     <p>Rekap Absen</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?= base_url('C_Transaksi/data_gaji') ?>" class="nav-link">
+                                <a href="<?= base_url('C_Data_Gaji/data_gaji') ?>" class="nav-link">
                                     <p>Data Gaji</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item menu-open">
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-paperclip"></i>
                             <p>
@@ -117,18 +117,18 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="<?= base_url('C_Laporan/laporan_gaji') ?>" class="nav-link">
+                                <a href="<?= base_url('C_Laporan_Gaji/data_laporan_gaji') ?>" class="nav-link">
                                     <p>Laporan Gaji</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="<?= base_url('C_Laporan/slip_gaji') ?>" class="nav-link">
+                                <a href="<?= base_url('C_Slip_Gaji/data_slip_gaji') ?>" class="nav-link">
                                     <p>Slip Gaji</p>
                                 </a>
                             </li>
                         </ul>
                     </li>
-                    <li class="nav-item menu-open">
+                    <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cog"></i>
                             <p>

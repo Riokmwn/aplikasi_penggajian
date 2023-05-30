@@ -1,5 +1,5 @@
 <?php
-class M_User_Model extends CI_Model
+class M_User extends CI_Model
 {
     // Fungsi untuk memeriksa apakah pengguna dengan username tertentu ada di database
     function check_user($username)

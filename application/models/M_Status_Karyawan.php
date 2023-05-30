@@ -1,5 +1,5 @@
 <?php
-class M_Status_Karyawan_Model extends CI_Model
+class M_Status_Karyawan extends CI_Model
 {
     public function get_status_karyawan()
     {

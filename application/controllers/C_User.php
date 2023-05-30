@@ -6,7 +6,7 @@ class C_User extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('M_User_Model');
+        $this->load->model('M_User');
 
         if (!$this->session->userdata('username')) {
             redirect('C_Auth');
@@ -19,10 +19,10 @@ class C_User extends CI_Controller
         if ($search) {
             $data['judul'] = 'Halaman Data User';
             $data['search'] = $search;
-            $data['users'] = $this->M_User_Model->search_user_karyawan($search);
+            $data['users'] = $this->M_User->search_user_karyawan($search);
         } else {
             $data['judul'] = 'Halaman Data User';
-            $data['users'] = $this->M_User_Model->get_akun_karyawan();
+            $data['users'] = $this->M_User->get_akun_karyawan();
         }
 
         $this->load->view('backend/dashboard/templates/header', $data);
@@ -38,7 +38,7 @@ class C_User extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Data User';
-            $data['users'] = $this->M_User_Model->get_akun_karyawan();
+            $data['users'] = $this->M_User->get_akun_karyawan();
 
             $this->load->view('backend/dashboard/templates/header', $data);
             $this->load->view('backend/dashboard/templates/sidebar');
@@ -52,7 +52,7 @@ class C_User extends CI_Controller
                 'password' => password_hash($this->input->post('username'), PASSWORD_DEFAULT),
                 'role_id' => 2
             );
-            $this->M_User_Model->add_user($data);
+            $this->M_User->add_user($data);
 
             // Redirect ke halaman data user setelah berhasil
             redirect('C_User/data_user');
@@ -66,7 +66,7 @@ class C_User extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Ubah User';
-            $data['user'] = $this->M_User_Model->get_user_by_id($id_users); // ambil data pengguna dari model
+            $data['user'] = $this->M_User->get_user_by_id($id_users); // ambil data pengguna dari model
             $data['id_users'] = $id_users;
 
             $this->load->view('backend/dashboard/templates/header', $data);
@@ -95,7 +95,7 @@ class C_User extends CI_Controller
 
     function delete_users($id_users)
     {
-        $this->M_User_Model->delete_users($id_users);
+        $this->M_User->delete_users($id_users);
         redirect('C_User/data_user');
     }
 }

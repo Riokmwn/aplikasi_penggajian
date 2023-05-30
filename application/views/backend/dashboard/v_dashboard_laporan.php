@@ -28,7 +28,8 @@
                         <div class="icon">
                             <i class="ion ion-cash"></i>
                         </div>
-                        <a href="<?= base_url('C_Laporan/laporan_gaji') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('C_Laporan_Gaji/data_laporan_gaji') ?>" class="small-box-footer">More info
+                            <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -43,7 +44,7 @@
                         <div class="icon">
                             <i class="ion ion-ios-paper"></i>
                         </div>
-                        <a href="<?= base_url('C_Laporan/slip_gaji') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('C_Slip_Gaji/data_slip_gaji') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->

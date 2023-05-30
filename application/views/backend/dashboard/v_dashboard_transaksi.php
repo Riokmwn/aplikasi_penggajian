@@ -28,7 +28,8 @@
                         <div class="icon">
                             <i class="ion ion-ios-paper"></i>
                         </div>
-                        <a href="<?= base_url('C_Transaksi/rekap_absen') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('C_Rekap_Absen/data_rekap_absen') ?>" class="small-box-footer">More info
+                            <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -43,7 +44,8 @@
                         <div class="icon">
                             <i class="ion ion-cash"></i>
                         </div>
-                        <a href="<?= base_url('C_Transaksi/data_gaji') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('C_Data_Gaji/data_gaji') ?>" class="small-box-footer">More info <i
+                                class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->

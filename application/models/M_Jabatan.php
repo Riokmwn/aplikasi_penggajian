@@ -1,5 +1,5 @@
 <?php
-class M_Jabatan_Model extends CI_Model
+class M_Jabatan extends CI_Model
 {
     public function get_jabatan()
     {

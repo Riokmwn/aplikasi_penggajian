@@ -6,11 +6,11 @@ class C_Jabatan extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('M_User_Model');
-        $this->load->model('M_Karyawan_Model');
-        $this->load->model('M_Jenis_Kelamin_Model');
-        $this->load->model('M_Jabatan_Model');
-        $this->load->model('M_Status_Karyawan_Model');
+        $this->load->model('M_User');
+        $this->load->model('M_Karyawan');
+        $this->load->model('M_Jenis_Kelamin');
+        $this->load->model('M_Jabatan');
+        $this->load->model('M_Status_Karyawan');
 
         if (!$this->session->userdata('username')) {
             redirect('C_Auth');
@@ -23,16 +23,16 @@ class C_Jabatan extends CI_Controller
         if ($search) {
             $data['judul'] = 'Halaman Data Jabatan';
             $data['search'] = $search;
-            $data['jabatan'] = $this->M_Jabatan_Model->search_jabatan($search);
+            $data['jabatan'] = $this->M_Jabatan->search_jabatan($search);
         } else {
             $data['judul'] = 'Halaman Data Jabatan';
-            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
+            $data['jabatan'] = $this->M_Jabatan->get_jabatan();
         }
 
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
-        $this->load->view('backend/master/v_data_jabatan', $data);
+        $this->load->view('backend/master/jabatan/v_data_jabatan', $data);
         $this->load->view('backend/dashboard/templates/footer');
     }
 
@@ -45,11 +45,11 @@ class C_Jabatan extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Data Jabatan';
-            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
+            $data['jabatan'] = $this->M_Jabatan->get_jabatan();
 
             $this->load->view('backend/dashboard/templates/header', $data);
             $this->load->view('backend/dashboard/templates/sidebar');
-            $this->load->view('backend/master/v_data_jabatan', $data);
+            $this->load->view('backend/master/jabatan/v_data_jabatan', $data);
             $this->load->view('backend/dashboard/templates/footer');
         } else {
             // Jika form validation valid, tambahkan data ke database
@@ -61,7 +61,7 @@ class C_Jabatan extends CI_Controller
                 'jabatan_total_gaji' => (int) preg_replace('/\D/', '', $this->input->post('gaji_pokok')) + (int) preg_replace('/\D/', '', $this->input->post('uang_makan')) + (int) preg_replace('/\D/', '', $this->input->post('transportasi'))
             );
 
-            $this->M_Jabatan_Model->add_jabatan($data);
+            $this->M_Jabatan->add_jabatan($data);
 
             // Redirect ke halaman data user setelah berhasil
             redirect('C_Jabatan/data_jabatan');
@@ -77,7 +77,7 @@ class C_Jabatan extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Ubah Jabatan';
-            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan_by_id($id_jabatan);
+            $data['jabatan'] = $this->M_Jabatan->get_jabatan_by_id($id_jabatan);
             $data['id_jabatan'] = $id_jabatan;
 
             $this->load->view('backend/dashboard/templates/header', $data);
@@ -109,7 +109,7 @@ class C_Jabatan extends CI_Controller
 
     function delete_jabatan($id_jabatan)
     {
-        $this->M_Jabatan_Model->delete_jabatan($id_jabatan);
+        $this->M_Jabatan->delete_jabatan($id_jabatan);
         redirect('C_Jabatan/data_jabatan');
     }
 }

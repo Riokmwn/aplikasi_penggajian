@@ -6,11 +6,11 @@ class C_Karyawan extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('M_User_Model');
-        $this->load->model('M_Karyawan_Model');
-        $this->load->model('M_Jenis_Kelamin_Model');
-        $this->load->model('M_Jabatan_Model');
-        $this->load->model('M_Status_Karyawan_Model');
+        $this->load->model('M_User');
+        $this->load->model('M_Karyawan');
+        $this->load->model('M_Jenis_Kelamin');
+        $this->load->model('M_Jabatan');
+        $this->load->model('M_Status_Karyawan');
 
         if (!$this->session->userdata('username')) {
             redirect('C_Auth');
@@ -23,21 +23,21 @@ class C_Karyawan extends CI_Controller
         if ($search) {
             $data['judul'] = 'Halaman Data Karyawan';
             $data['search'] = $search;
-            $data['karyawan'] = $this->M_Karyawan_Model->search_nik_name_karyawan($search);
-            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin_Model->get_jenis_kelamin();
-            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
-            $data['status_karyawan'] = $this->M_Status_Karyawan_Model->get_status_karyawan();
+            $data['karyawan'] = $this->M_Karyawan->search_nik_name_karyawan($search);
+            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin->get_jenis_kelamin();
+            $data['jabatan'] = $this->M_Jabatan->get_jabatan();
+            $data['status_karyawan'] = $this->M_Status_Karyawan->get_status_karyawan();
         } else {
             $data['judul'] = 'Halaman Data Karyawan';
-            $data['karyawan'] = $this->M_Karyawan_Model->get_all_karyawan();
-            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin_Model->get_jenis_kelamin();
-            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
-            $data['status_karyawan'] = $this->M_Status_Karyawan_Model->get_status_karyawan();
+            $data['karyawan'] = $this->M_Karyawan->get_all_karyawan();
+            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin->get_jenis_kelamin();
+            $data['jabatan'] = $this->M_Jabatan->get_jabatan();
+            $data['status_karyawan'] = $this->M_Status_Karyawan->get_status_karyawan();
         }
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
-        $this->load->view('backend/master/v_data_karyawan', $data);
+        $this->load->view('backend/master/karyawan/v_data_karyawan', $data);
         $this->load->view('backend/dashboard/templates/footer');
     }
 
@@ -52,14 +52,14 @@ class C_Karyawan extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Data Karyawan';
-            $data['karyawan'] = $this->M_Karyawan_Model->get_all_karyawan();
-            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin_Model->get_jenis_kelamin();
-            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
-            $data['status_karyawan'] = $this->M_Status_Karyawan_Model->get_status_karyawan();
+            $data['karyawan'] = $this->M_Karyawan->get_all_karyawan();
+            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin->get_jenis_kelamin();
+            $data['jabatan'] = $this->M_Jabatan->get_jabatan();
+            $data['status_karyawan'] = $this->M_Status_Karyawan->get_status_karyawan();
 
             $this->load->view('backend/dashboard/templates/header', $data);
             $this->load->view('backend/dashboard/templates/sidebar');
-            $this->load->view('backend/master/v_data_karyawan', $data);
+            $this->load->view('backend/master/karyawan/v_data_karyawan', $data);
             $this->load->view('backend/dashboard/templates/footer');
         } else {
             // Jika form validation valid, tambahkan data ke database
@@ -71,7 +71,7 @@ class C_Karyawan extends CI_Controller
                 'jabatan_id' => $this->input->post('jabatan_karyawan'),
                 'status_karyawan_id' => $this->input->post('status_karyawan')
             );
-            $this->M_Karyawan_Model->add_karyawan($data);
+            $this->M_Karyawan->add_karyawan($data);
 
             // Redirect ke halaman data user setelah berhasil
             redirect('C_Karyawan/data_karyawan');
@@ -80,7 +80,7 @@ class C_Karyawan extends CI_Controller
 
     function edit_karyawan($id_karyawan)
     {
-        $existing_nik = $this->M_Karyawan_Model->get_nik_karyawan_by_id($id_karyawan);
+        $existing_nik = $this->M_Karyawan->get_nik_karyawan_by_id($id_karyawan);
         $nik_rule = 'required|numeric|trim|min_length[16]';
         if (isset($_POST['nik_karyawan']) && $_POST['nik_karyawan'] != $existing_nik) {
             // Nik berubah, terapkan validasi is_unique
@@ -96,10 +96,10 @@ class C_Karyawan extends CI_Controller
 
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Ubah Karyawan';
-            $data['karyawan'] = $this->M_Karyawan_Model->get_karyawan_by_id($id_karyawan);
-            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin_Model->get_jenis_kelamin();
-            $data['jabatan'] = $this->M_Jabatan_Model->get_jabatan();
-            $data['status_karyawan'] = $this->M_Status_Karyawan_Model->get_status_karyawan();
+            $data['karyawan'] = $this->M_Karyawan->get_karyawan_by_id($id_karyawan);
+            $data['jenis_kelamin'] = $this->M_Jenis_Kelamin->get_jenis_kelamin();
+            $data['jabatan'] = $this->M_Jabatan->get_jabatan();
+            $data['status_karyawan'] = $this->M_Status_Karyawan->get_status_karyawan();
             $data['id_karyawan'] = $id_karyawan;
 
             $this->load->view('backend/dashboard/templates/header', $data);
@@ -132,7 +132,7 @@ class C_Karyawan extends CI_Controller
 
     function delete_karyawan($id_karyawan)
     {
-        $this->M_Karyawan_Model->delete_karyawan($id_karyawan);
+        $this->M_Karyawan->delete_karyawan($id_karyawan);
         redirect('C_Karyawan/data_karyawan');
     }
 }

@@ -12,7 +12,7 @@
 <script src="<?= base_url('assets/backend/') ?>plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-    $.widget.bridge('uibutton', $.ui.button)
+$.widget.bridge('uibutton', $.ui.button)
 </script>
 <!-- Bootstrap 4 -->
 <script src="<?= base_url('assets/backend/') ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -47,9 +47,9 @@
 <?php
 $this->load->view('backend/master/user/footer/reset_password');
 $this->load->view('backend/master/jabatan/footer/number');
-$this->load->view('backend/master/utility/footer/delete');
-$this->load->view('backend/master/utility/footer/back-button');
-$this->load->view('backend/master/utility/footer/button-nav-link');
+$this->load->view('backend/utility/footer/delete');
+$this->load->view('backend/utility/footer/back-button');
+$this->load->view('backend/utility/footer/button-nav-link');
 ?>
 </body>
 

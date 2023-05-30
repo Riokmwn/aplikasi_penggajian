@@ -6,7 +6,7 @@ class C_Auth extends CI_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('M_User_Model');
+		$this->load->model('M_User');
 	}
 
 	function index()
@@ -32,9 +32,9 @@ class C_Auth extends CI_Controller
 			$password = $this->input->post('password');
 
 			// Cek apakah pengguna dengan username tertentu ada di database
-			if ($this->M_User_Model->check_user($username)) {
+			if ($this->M_User->check_user($username)) {
 				// Ambil data pengguna dari database
-				$users = $this->M_User_Model->get_user($username);
+				$users = $this->M_User->get_user($username);
 
 				// Cek apakah password yang dimasukkan cocok dengan hash password di database
 				if (password_verify($password, $users->password)) {
@@ -75,7 +75,7 @@ class C_Auth extends CI_Controller
 		}
 
 		$username = $this->session->userdata('username');
-		$user = $this->M_User_Model->get_user($username);
+		$user = $this->M_User->get_user($username);
 
 		$this->form_validation->set_rules('password1', 'Password Baru', 'trim|required|min_length[3]|matches[password2]');
 		$this->form_validation->set_rules('password2', 'Ulangi Password Baru', 'trim|required|min_length[3]|matches[password1]');
@@ -101,11 +101,11 @@ class C_Auth extends CI_Controller
 
 	function reset_password($id_users)
 	{
-		$user = $this->M_User_Model->get_user_by_id($id_users);
+		$user = $this->M_User->get_user_by_id($id_users);
 		$username = $user->username;
 		$new_password = $username; // password baru sama dengan username
 
-		$this->M_User_Model->update_password($id_users, $new_password);
+		$this->M_User->update_password($id_users, $new_password);
 
 		redirect('C_User/data_user');
 	}
