@@ -9,6 +9,8 @@ class C_Rekap_Absen extends CI_Controller
         $this->load->model('M_User');
         $this->load->model('M_Rekap_Absen');
         $this->load->model('M_Karyawan');
+        $this->load->model('M_Jabatan');
+        $this->load->model('M_Data_Gaji');
         if (!$this->session->userdata('username')) {
             redirect('C_Auth');
         }
@@ -16,8 +18,21 @@ class C_Rekap_Absen extends CI_Controller
 
     function data_rekap_absen()
     {
-        $data['judul'] = 'Halaman Rekap Absen';
-        $data['rekap_absen'] = $this->M_Rekap_Absen->get_all_rekap_absen();
+        $selectedMonth = $this->input->get('bulan');
+        $selectedYear = $this->input->get('tahun');
+        $search = $this->input->get('search');
+
+        if (!empty($selectedMonth) && !empty($selectedYear)) {
+            $data['judul'] = 'Halaman Rekap Absen';
+            $data['rekap_absen'] = $this->M_Rekap_Absen->get_rekap_absen_by_month_year($selectedMonth, $selectedYear);
+        } else if ($search) {
+            $data['judul'] = 'Halaman Rekap Absen';
+            $data['search'] = $search;
+            $data['rekap_absen'] = $this->M_Rekap_Absen->search_rekap_absen($search);
+        } else {
+            $data['judul'] = 'Halaman Rekap Absen';
+            $data['rekap_absen'] = $this->M_Rekap_Absen->get_all_rekap_absen();
+        }
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
@@ -49,24 +64,50 @@ class C_Rekap_Absen extends CI_Controller
             $total_data = count($this->input->post('hadir'));
 
             $array_data = array(); // Buat array kosong untuk menampung data rekap absen
+            $array_gaji = array(); // Buat array kosong untuk menampung data rekap gaji
 
             for ($i = 0; $i < $total_data; $i++) {
                 $data = array(
-
                     'karyawan_id' => isset($this->input->post('id_karyawan')[$i]) ? $this->input->post('id_karyawan')[$i] : '',
                     'rekap_absen_bulan' => isset($bulan) ? $bulan : '',
                     'rekap_absen_tahun' => isset($tahun) ? $tahun : '',
-                    'rekap_absen_hadir' => isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] : '',
-                    'rekap_absen_telat' => isset($this->input->post('telat')[$i]) ? $this->input->post('telat')[$i] : '',
-                    'rekap_absen_izin' => isset($this->input->post('izin')[$i]) ? $this->input->post('izin')[$i] : '',
-                    'rekap_absen_sakit' => isset($this->input->post('sakit')[$i]) ? $this->input->post('sakit')[$i] : '',
-                    'rekap_absen_tidak_hadir' => isset($this->input->post('tidak_hadir')[$i]) ? $this->input->post('tidak_hadir')[$i] : ''
+                    'rekap_absen_hadir' => isset($this->input->post('hadir')[$i]) ? intval($this->input->post('hadir')[$i]) : 0,
+                    'rekap_absen_telat' => isset($this->input->post('telat')[$i]) ? intval($this->input->post('telat')[$i]) : 0,
+                    'rekap_absen_izin' => isset($this->input->post('izin')[$i]) ? intval($this->input->post('izin')[$i]) : 0,
+                    'rekap_absen_sakit' => isset($this->input->post('sakit')[$i]) ? intval($this->input->post('sakit')[$i]) : 0,
+                    'rekap_absen_tidak_hadir' => isset($this->input->post('tidak_hadir')[$i]) ? intval($this->input->post('tidak_hadir')[$i]) : 0
                 );
+
+                $jabatan_gaji = $this->M_Jabatan->get_jabatan_gaji($this->input->post('id_karyawan')[$i]);
+                $jabatan_gaji_pokok = $jabatan_gaji['jabatan_gaji_pokok'];
+                $jabatan_gaji_makan = $jabatan_gaji['jabatan_gaji_makan'];
+                $jabatan_gaji_transportasi = $jabatan_gaji['jabatan_gaji_transportasi'];
+                $rekap_gaji_total = 0;
+
+                $rekap_gaji_pokok = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_pokok / 20) : 0;
+                $rekap_gaji_makan = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_makan / 20) : 0;
+                $rekap_gaji_transportasi = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_transportasi / 20) : 0;
+                $rekap_gaji_potongan = isset($this->input->post('tidak_hadir')[$i]) ? ($this->input->post('tidak_hadir')[$i] * ($rekap_gaji_total / 20)) + (isset($this->input->post('telat')[$i]) ? ($this->input->post('telat')[$i] * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
+                $rekap_gaji_total += isset($this->input->post('hadir')[$i]) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - $rekap_gaji_potongan) : 0;
+
+                $data2 = array(
+                    'karyawan_id' => isset($this->input->post('id_karyawan')[$i]) ? $this->input->post('id_karyawan')[$i] : '',
+                    'rekap_gaji_bulan' => isset($bulan) ? $bulan : '',
+                    'rekap_gaji_tahun' => isset($tahun) ? $tahun : '',
+                    'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
+                    'rekap_gaji_makan' => intval($rekap_gaji_makan),
+                    'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
+                    'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
+                    'rekap_gaji_total' => intval($rekap_gaji_total)
+                );
+
                 $array_data[] = $data;
+                $array_gaji[] = $data2;
             }
 
-            if ($array_data != '') {
+            if (!empty($array_data) && !empty($array_gaji)) {
                 $this->M_Rekap_Absen->add_rekap_absen($array_data);
+                $this->M_Data_Gaji->add_rekap_gaji($array_gaji);
             }
 
             redirect('C_Rekap_Absen/data_rekap_absen');
@@ -100,11 +141,38 @@ class C_Rekap_Absen extends CI_Controller
                 'rekap_absen_sakit' => $this->input->post('sakit'),
                 'rekap_absen_tidak_hadir' => $this->input->post('tidak_hadir')
             );
+
+            $jabatan_gaji = $this->M_Jabatan->get_jabatan_gaji($this->input->post('id_karyawan'));
+            $jabatan_gaji_pokok = $jabatan_gaji['jabatan_gaji_pokok'];
+            $jabatan_gaji_makan = $jabatan_gaji['jabatan_gaji_makan'];
+            $jabatan_gaji_transportasi = $jabatan_gaji['jabatan_gaji_transportasi'];
+            $rekap_gaji_total = 0;
+
+            $rekap_gaji_pokok = ($this->input->post('hadir')) ? $this->input->post('hadir') * ($jabatan_gaji_pokok / 20) : 0;
+            $rekap_gaji_makan = ($this->input->post('hadir')) ? $this->input->post('hadir') * ($jabatan_gaji_makan / 20) : 0;
+            $rekap_gaji_transportasi = ($this->input->post('hadir')) ? $this->input->post('hadir') * ($jabatan_gaji_transportasi / 20) : 0;
+            $rekap_gaji_potongan = ($this->input->post('tidak_hadir')) ? ($this->input->post('tidak_hadir') * ($rekap_gaji_total / 20)) + (($this->input->post('telat')) ? ($this->input->post('telat') * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
+            $rekap_gaji_total += ($this->input->post('hadir')) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - $rekap_gaji_potongan) : 0;
+
+            $data2 = array(
+                'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
+                'rekap_gaji_makan' => intval($rekap_gaji_makan),
+                'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
+                'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
+                'rekap_gaji_total' => intval($rekap_gaji_total)
+            );
+
             // Update data pada database
             $this->db->where('karyawan_id', $id_karyawan);
             $this->db->where('rekap_absen_bulan', $rekap_absen_bulan);
             $this->db->where('rekap_absen_tahun', $rekap_absen_tahun);
             $result = $this->db->update('rekap_absen', $data);
+
+
+            $this->db->where('karyawan_id', $id_karyawan);
+            $this->db->where('rekap_gaji_bulan', $rekap_absen_bulan);
+            $this->db->where('rekap_gaji_tahun', $rekap_absen_tahun);
+            $result = $this->db->update('rekap_gaji', $data2);
 
             if ($result) {
                 redirect('C_Rekap_Absen/data_rekap_absen');
@@ -120,6 +188,7 @@ class C_Rekap_Absen extends CI_Controller
     function delete_rekap_absen($id_karyawan, $rekap_absen_bulan, $rekap_absen_tahun)
     {
         $this->M_Rekap_Absen->delete_rekap_absen($id_karyawan, $rekap_absen_bulan, $rekap_absen_tahun);
+        $this->M_Data_Gaji->delete_rekap_gaji($id_karyawan, $rekap_absen_bulan, $rekap_absen_tahun);
         redirect('C_Rekap_Absen/data_rekap_absen');
     }
 }

@@ -43,13 +43,25 @@
                 </div>
             </div>
 
-            <a href="<?= base_url('') ?>" type="button" class="btn btn-success">
+            <button id="search_absen" type="button" class="btn btn-success">
                 Lihat Rekap Absen
-            </a>
+            </button>
 
             <a href="<?= base_url('C_Rekap_Absen/add_rekap_absen') ?>" type="button" class="btn btn-primary">
                 Tambah Rekap Absen
             </a>
+
+            <!-- Search Button -->
+            <form class="mt-3" method="GET" action="<?= site_url('C_Rekap_Absen/data_rekap_absen') ?>">
+                <div class="input-group mb-3">
+                    <input type="text" name="search" class="form-control" placeholder="Search...">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div><!-- /.container-fluid -->
     </section>
 
@@ -64,7 +76,24 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <?php if (empty($rekap_absen)) { ?>
+                            <?php
+                            // Mengatur jumlah data per halaman
+                            $per_page = 20;
+
+                            // Menghitung jumlah total halaman
+                            $total_pages = ceil(count($rekap_absen) / $per_page);
+
+                            // Mengambil halaman saat ini dari URL
+                            $current_page = isset($_GET['page']) ? $_GET['page'] : 1;
+
+                            // Menghitung offset (data awal pada halaman saat ini)
+                            $offset = ($current_page - 1) * $per_page;
+
+                            // Mengambil data siswa sesuai dengan halaman saat ini
+                            $Rekap = array_slice($rekap_absen, $offset, $per_page);
+                            ?>
+
+                            <?php if (empty($Rekap)) { ?>
                                 <p>Data Belum Ada</p>
                             <?php } else { ?>
                                 <table class="table table-bordered table-striped text-center">
@@ -86,10 +115,11 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $no = 1;
-                                        foreach ($rekap_absen as $rekap) { ?>
+                                        // $no = 1;
+                                        $start_number = ($current_page - 1) * $per_page + 1;
+                                        foreach ($Rekap as $rekap) { ?>
                                             <tr>
-                                                <td><?= $no++; ?></td>
+                                                <td><?= $start_number++; ?></td>
                                                 <td><?= $rekap->nik_karyawan; ?></td>
                                                 <td><?= $rekap->karyawan_nama; ?></td>
                                                 <td><?= $rekap->jabatan_nama; ?></td>
@@ -111,6 +141,24 @@
                             <?php } ?>
                         </div>
                         <!-- /.card-body -->
+                        <!-- Pagination -->
+                        <nav>
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . ($current_page - 1)) ?>">Previous</a>
+                                </li>
+                                <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                                    <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
+                                        <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . $i) ?>">
+                                            <?= $i ?>
+                                        </a>
+                                    </li>
+                                <?php } ?>
+                                <li class="page-item <?= ($current_page == $total_pages) ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . ($current_page + 1)) ?>">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                     <!-- /.card -->
                 </div>
