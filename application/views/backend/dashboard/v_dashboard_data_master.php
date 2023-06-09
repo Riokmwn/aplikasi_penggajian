@@ -18,20 +18,32 @@
             <!-- Small boxes (Stat box) -->
             <div class="row">
                 <?php if ($this->session->userdata('username') == 'admin') : ?>
-                <div class="col-lg-3 col-6">
-                    <!-- small box -->
-                    <div class="small-box bg-info">
-                        <div class="inner">
-                            <h3 style="opacity: 0;">150</h3>
-                            <p>Data User</p>
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 style="opacity: 0;">150</h3>
+                                <p>Data User</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-android-person"></i>
+                            </div>
+                            <a href="<?= base_url('C_User/data_user') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-android-person"></i>
-                        </div>
-                        <a href="<?= base_url('C_User/data_user') ?>" class="small-box-footer">More info <i
-                                class="fas fa-arrow-circle-right"></i></a>
                     </div>
-                </div>
+                    <div class="col-lg-3 col-6">
+                        <!-- small box -->
+                        <div class="small-box bg-info">
+                            <div class="inner">
+                                <h3 style="opacity: 0;">150</h3>
+                                <p>Data BPJS</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-android-person"></i>
+                            </div>
+                            <a href="<?= base_url('C_Bpjs/data_bpjs') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
                 <?php endif ?>
                 <!-- ./col -->
                 <div class="col-lg-3 col-6">
@@ -45,8 +57,7 @@
                         <div class="icon">
                             <i class="ion ion-android-people"></i>
                         </div>
-                        <a href="<?= base_url('C_Karyawan/data_karyawan') ?>" class="small-box-footer">More info <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('C_Karyawan/data_karyawan') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->
@@ -61,8 +72,7 @@
                         <div class="icon">
                             <i class="ion ion-man"></i>
                         </div>
-                        <a href="<?= base_url('C_Jabatan/data_jabatan') ?>" class="small-box-footer">More info <i
-                                class="fas fa-arrow-circle-right"></i></a>
+                        <a href="<?= base_url('C_Jabatan/data_jabatan') ?>" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
                 <!-- ./col -->

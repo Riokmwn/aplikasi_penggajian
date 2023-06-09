@@ -73,6 +73,11 @@
                                         <p>Data User</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('C_Bpjs/data_bpjs') ?>" class="nav-link">
+                                        <p>Data BPJS</p>
+                                    </a>
+                                </li>
                             <?php endif ?>
                             <li class="nav-item">
                                 <a href="<?= base_url('C_Karyawan/data_karyawan') ?>" class="nav-link">

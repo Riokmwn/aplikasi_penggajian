@@ -94,11 +94,16 @@ class C_Rekap_Absen extends CI_Controller
                     'karyawan_id' => isset($this->input->post('id_karyawan')[$i]) ? $this->input->post('id_karyawan')[$i] : '',
                     'rekap_gaji_bulan' => isset($bulan) ? $bulan : '',
                     'rekap_gaji_tahun' => isset($tahun) ? $tahun : '',
-                    'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
-                    'rekap_gaji_makan' => intval($rekap_gaji_makan),
-                    'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
-                    'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
-                    'rekap_gaji_total' => intval($rekap_gaji_total)
+                    // 'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
+                    // 'rekap_gaji_makan' => intval($rekap_gaji_makan),
+                    // 'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
+                    // 'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
+                    // 'rekap_gaji_total' => intval($rekap_gaji_total)
+                    'rekap_gaji_pokok' => isset($rekap_gaji_pokok) ? (int) preg_replace('/\D/', '', $rekap_gaji_pokok) : 0,
+                    'rekap_gaji_makan' => isset($rekap_gaji_makan) ? (int) preg_replace('/\D/', '', $rekap_gaji_makan) : 0,
+                    'rekap_gaji_transportasi' => isset($rekap_gaji_transportasi) ? (int) preg_replace('/\D/', '', $rekap_gaji_transportasi) : 0,
+                    'rekap_gaji_potongan' => isset($rekap_gaji_potongan) ? (int) preg_replace('/\D/', '', $rekap_gaji_potongan) : 0,
+                    'rekap_gaji_total' => isset($rekap_gaji_total) ? (int) preg_replace('/\D/', '', $rekap_gaji_total) : 0
                 );
 
                 $array_data[] = $data;
@@ -155,11 +160,16 @@ class C_Rekap_Absen extends CI_Controller
             $rekap_gaji_total += ($this->input->post('hadir')) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - $rekap_gaji_potongan) : 0;
 
             $data2 = array(
-                'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
-                'rekap_gaji_makan' => intval($rekap_gaji_makan),
-                'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
-                'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
-                'rekap_gaji_total' => intval($rekap_gaji_total)
+                // 'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
+                // 'rekap_gaji_makan' => intval($rekap_gaji_makan),
+                // 'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
+                // 'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
+                // 'rekap_gaji_total' => intval($rekap_gaji_total)
+                'rekap_gaji_pokok' => isset($rekap_gaji_pokok) ? (int) preg_replace('/\D/', '', $rekap_gaji_pokok) : 0,
+                'rekap_gaji_makan' => isset($rekap_gaji_makan) ? (int) preg_replace('/\D/', '', $rekap_gaji_makan) : 0,
+                'rekap_gaji_transportasi' => isset($rekap_gaji_transportasi) ? (int) preg_replace('/\D/', '', $rekap_gaji_transportasi) : 0,
+                'rekap_gaji_potongan' => isset($rekap_gaji_potongan) ? (int) preg_replace('/\D/', '', $rekap_gaji_potongan) : 0,
+                'rekap_gaji_total' => isset($rekap_gaji_total) ? (int) preg_replace('/\D/', '', $rekap_gaji_total) : 0
             );
 
             // Update data pada database

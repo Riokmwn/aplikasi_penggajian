@@ -32,6 +32,8 @@
     <link rel="stylesheet" href="<?= base_url('assets/backend/') ?>plugins/daterangepicker/daterangepicker.css">
     <!-- summernote -->
     <link rel="stylesheet" href="<?= base_url('assets/backend/') ?>plugins/summernote/summernote-bs4.min.css">
+    <!-- My Styles -->
+    <link rel="stylesheet" href="<?= base_url('assets/css/') ?>styles.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

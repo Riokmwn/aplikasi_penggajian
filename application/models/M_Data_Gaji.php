@@ -31,6 +31,15 @@ class M_Data_Gaji extends CI_Model
         return $query->result();
     }
 
+    function check_data_existence($selectedMonth, $selectedYear)
+    {
+        $this->db->where('rekap_gaji_bulan', $selectedMonth);
+        $this->db->where('rekap_gaji_tahun', $selectedYear);
+        $query = $this->db->get('rekap_gaji');
+
+        return $query->num_rows() > 0;
+    }
+
     function search_data_gaji($search)
     {
         $this->db->select('*');

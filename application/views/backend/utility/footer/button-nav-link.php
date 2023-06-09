@@ -39,6 +39,14 @@
                 changePasswordLink.addClass("active");
                 changePasswordLink.closest(".nav-treeview").prev(".nav-link").addClass("active");
                 changePasswordLink.closest(".nav-treeview").parent().addClass("menu-open");
+            } else if (url.indexOf("<?= base_url('C_Bpjs') ?>") === 0) {
+                // Get the Fitur Aplikasi nav link element
+                var bpjsLink = $("a[href='" + "<?= base_url('C_Bpjs/data_bpjs') ?>" +
+                    "']");
+
+                bpjsLink.addClass("active");
+                bpjsLink.closest(".nav-treeview").prev(".nav-link").addClass("active");
+                bpjsLink.closest(".nav-treeview").parent().addClass("menu-open");
             } else if (url.indexOf("<?= base_url('C_Karyawan') ?>") === 0) {
                 // Get the Fitur Aplikasi nav link element
                 var karyawanLink = $("a[href='" + "<?= base_url('C_Karyawan/data_karyawan') ?>" +
