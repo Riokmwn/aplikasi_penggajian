@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2023 at 05:36 PM
+-- Generation Time: Jun 09, 2023 at 05:02 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `penggajian`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bpjs`
+--
+
+CREATE TABLE `bpjs` (
+  `id_bpjs` int(11) NOT NULL,
+  `bpjs_kelas` varchar(10) NOT NULL,
+  `bpjs_biaya` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `bpjs`
+--
+
+INSERT INTO `bpjs` (`id_bpjs`, `bpjs_kelas`, `bpjs_biaya`) VALUES
+(1, 'Kelas 1', 150000),
+(2, 'Kelas 2', 100000),
+(3, 'Kelas 3', 50000);
 
 -- --------------------------------------------------------
 
@@ -112,8 +133,8 @@ CREATE TABLE `rekap_absen` (
 --
 
 INSERT INTO `rekap_absen` (`karyawan_id`, `rekap_absen_bulan`, `rekap_absen_tahun`, `rekap_absen_hadir`, `rekap_absen_telat`, `rekap_absen_izin`, `rekap_absen_sakit`, `rekap_absen_tidak_hadir`) VALUES
-(1, 'Februari', '2020', 1, 1, 1, 1, 1),
-(3, 'Februari', '2020', 3, 3, 3, 3, 3);
+(1, 'Januari', '2020', 1, 1, 1, 1, 1),
+(3, 'Januari', '2020', 2, 2, 2, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -125,11 +146,11 @@ CREATE TABLE `rekap_gaji` (
   `karyawan_id` int(11) NOT NULL,
   `rekap_gaji_bulan` varchar(8) NOT NULL,
   `rekap_gaji_tahun` varchar(4) NOT NULL,
-  `rekap_gaji_pokok` int(11) NOT NULL,
-  `rekap_gaji_makan` int(11) NOT NULL,
-  `rekap_gaji_transportasi` int(11) NOT NULL,
-  `rekap_gaji_potongan` int(11) NOT NULL,
-  `rekap_gaji_total` int(11) NOT NULL
+  `rekap_gaji_pokok` int(20) NOT NULL,
+  `rekap_gaji_makan` int(20) NOT NULL,
+  `rekap_gaji_transportasi` int(20) NOT NULL,
+  `rekap_gaji_potongan` int(20) NOT NULL,
+  `rekap_gaji_total` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -137,8 +158,8 @@ CREATE TABLE `rekap_gaji` (
 --
 
 INSERT INTO `rekap_gaji` (`karyawan_id`, `rekap_gaji_bulan`, `rekap_gaji_tahun`, `rekap_gaji_pokok`, `rekap_gaji_makan`, `rekap_gaji_transportasi`, `rekap_gaji_potongan`, `rekap_gaji_total`) VALUES
-(1, 'Februari', '2020', 150000, 15000, 15000, 30000, 150000),
-(3, 'Februari', '2020', 450000, 45000, 45000, 90000, 450000);
+(1, 'Januari', '2020', 150000, 15000, 15000, 30000, 150000),
+(3, 'Januari', '2020', 300000, 30000, 30000, 60000, 300000);
 
 -- --------------------------------------------------------
 
@@ -187,6 +208,12 @@ INSERT INTO `users` (`id_users`, `users_name`, `username`, `password`, `role_id`
 --
 
 --
+-- Indexes for table `bpjs`
+--
+ALTER TABLE `bpjs`
+  ADD PRIMARY KEY (`id_bpjs`);
+
+--
 -- Indexes for table `jabatan`
 --
 ALTER TABLE `jabatan`
@@ -219,6 +246,12 @@ ALTER TABLE `users`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `bpjs`
+--
+ALTER TABLE `bpjs`
+  MODIFY `id_bpjs` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `jabatan`
