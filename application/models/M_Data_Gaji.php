@@ -31,6 +31,23 @@ class M_Data_Gaji extends CI_Model
         return $query->result();
     }
 
+    function get_data_gaji_by_month_year_karyawan($selectedMonth, $selectedYear, $karyawan)
+    {
+        $this->db->select('*');
+        $this->db->from('karyawan');
+        $this->db->join('jenis_kelamin', 'karyawan.jenis_kelamin_id = jenis_kelamin.id_jenis_kelamin');
+        $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
+        $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
+        $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
+        $this->db->join('rekap_gaji', 'karyawan.id_karyawan = rekap_gaji.karyawan_id');
+        $this->db->where('rekap_gaji_bulan', $selectedMonth);
+        $this->db->where('rekap_gaji_tahun', $selectedYear);
+        $this->db->where('id_karyawan', $karyawan);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
     function check_data_existence($selectedMonth, $selectedYear)
     {
         $this->db->where('rekap_gaji_bulan', $selectedMonth);
