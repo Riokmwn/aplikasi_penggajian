@@ -93,6 +93,40 @@ class C_User extends CI_Controller
         }
     }
 
+    function edit_account($id_users)
+    {
+        $this->form_validation->set_rules('nama_pengguna', 'Nama Pengguna', 'required|trim');
+        $this->form_validation->set_rules('username', 'Username', 'required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            $data['judul'] = 'Halaman Ubah Akun';
+            $data['id_users'] = $id_users;
+            $data['user'] = $this->M_User->get_user_by_id($id_users);
+
+            $this->load->view('backend/dashboard/templates/header', $data);
+            $this->load->view('backend/dashboard/templates/sidebar');
+            $this->load->view('backend/master/user/v_edit_account', $data);
+            $this->load->view('backend/dashboard/templates/footer');
+        } else {
+            $data = array(
+                'users_name' => $this->input->post('nama_pengguna'),
+                'username' => $this->input->post('username')
+            );
+
+            // Update data pada database
+            $this->db->where('id_users', $id_users);
+            $result = $this->db->update('users', $data);
+
+            if ($result) {
+                redirect('C_Dashboard');
+            } else {
+                // Jika update data gagal, tampilkan pesan error
+                $this->session->set_flashdata('error', 'Gagal mengubah data');
+                redirect('C_User/edit_account/' . $id_users);
+            }
+        }
+    }
+
     function delete_users($id_users)
     {
         $this->M_User->delete_users($id_users);

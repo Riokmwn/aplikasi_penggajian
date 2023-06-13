@@ -24,7 +24,7 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <form action=" <?= base_url('C_User/edit_user/' . $id_users) ?>" method="post">
+                        <form action=" <?= base_url('C_User/edit_account/' . $id_users) ?>" method="post">
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="username">Username:</label>
