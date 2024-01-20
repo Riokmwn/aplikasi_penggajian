@@ -19,7 +19,7 @@
                                 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
                             );
                             foreach ($bulan as $row) { ?>
-                                <option value="<?php echo $row ?>">
+                                <option value="<?php echo $row ?>" <?= $_GET && $_GET['bulan'] == $row ? 'selected' : '' ?>>
                                     <?php echo $row ?>
                                 </option>
                             <?php } ?>
@@ -34,7 +34,7 @@
                             <?php
                             $current_year = date('Y');
                             for ($i = 2020; $i <= $current_year; $i++) { ?>
-                                <option value="<?php echo $i ?>">
+                                <option value="<?php echo $i ?>" <?= $_GET && $_GET['tahun'] == $i ? 'selected' : '' ?>>
                                     <?php echo $i ?>
                                 </option>
                             <?php } ?>
@@ -60,18 +60,19 @@
                     </button>
                 </div>
             </div>
-
-            <!-- Search Button -->
-            <form class="mt-3" method="GET" action="<?= site_url('C_Data_Gaji/data_gaji') ?>">
-                <div class="input-group mb-3">
-                    <input type="text" name="search" class="form-control" placeholder="Search...">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fas fa-search"></i> Search
-                        </button>
+            <?php if ($_SESSION['role_id'] == 1) { ?>
+                <!-- Search Button -->
+                <form class="mt-3" method="GET" action="<?= site_url('C_Data_Gaji/data_gaji') ?>">
+                    <div class="input-group mb-3">
+                        <input type="text" name="search" class="form-control" placeholder="Search...">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="fas fa-search"></i> Search
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            <?php } ?>
         </div><!-- /.container-fluid -->
     </section>
 
@@ -156,23 +157,25 @@
                         </div>
                         <!-- /.card-body -->
                         <!-- Pagination -->
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="<?= base_url('C_Data_Gaji/data_gaji/index?page=' . ($current_page - 1)) ?>">Previous</a>
-                                </li>
-                                <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-                                    <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
-                                        <a class="page-link" href="<?= base_url('C_Data_Gaji/data_gaji/index?page=' . $i) ?>">
-                                            <?= $i ?>
-                                        </a>
+                        <?php if ($_SESSION['role_id'] == 1) { ?>
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="<?= base_url('C_Data_Gaji/data_gaji/index?page=' . ($current_page - 1)) ?>">Previous</a>
                                     </li>
-                                <?php } ?>
-                                <li class="page-item <?= ($current_page == $total_pages) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="<?= base_url('C_Data_Gaji/data_gaji/index?page=' . ($current_page + 1)) ?>">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                                    <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                                        <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
+                                            <a class="page-link" href="<?= base_url('C_Data_Gaji/data_gaji/index?page=' . $i) ?>">
+                                                <?= $i ?>
+                                            </a>
+                                        </li>
+                                        <?php } ?>
+                                        <li class="page-item <?= ($current_page == $total_pages) ? 'disabled' : '' ?>">
+                                            <a class="page-link" href="<?= base_url('C_Data_Gaji/data_gaji/index?page=' . ($current_page + 1)) ?>">Next</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                        <?php } ?>
                     </div>
                     <!-- /.card -->
                 </div>

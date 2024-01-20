@@ -18,9 +18,9 @@ class C_Rekap_Absen extends CI_Controller
 
     function data_rekap_absen()
     {
-        $selectedMonth = $this->input->get('bulan');
-        $selectedYear = $this->input->get('tahun');
-        $search = $this->input->get('search');
+        $selectedMonth = $this->input->get('bulan') ?? '';
+        $selectedYear = $this->input->get('tahun') ?? '';
+        $search = $this->input->get('search') ?? '';
 
         if (!empty($selectedMonth) && !empty($selectedYear)) {
             $data['judul'] = 'Halaman Rekap Absen';
@@ -33,6 +33,21 @@ class C_Rekap_Absen extends CI_Controller
             $data['judul'] = 'Halaman Rekap Absen';
             $data['rekap_absen'] = $this->M_Rekap_Absen->get_all_rekap_absen();
         }
+
+        $this->db->select('*');
+        $this->db->from('karyawan');
+        $this->db->join('jenis_kelamin', 'karyawan.jenis_kelamin_id = jenis_kelamin.id_jenis_kelamin');
+        $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
+        $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
+        $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
+        if ($_SESSION['role_id'] == 2) {
+            $this->db->where('karyawan.user_id', $_SESSION['id_users']);
+        }
+        $this->db->like('rekap_absen_bulan', $selectedMonth);
+        $this->db->like('rekap_absen_tahun', $selectedYear);
+        $this->db->like('nik_karyawan', $search);
+        $this->db->like('karyawan_nama', $search);
+        $data['rekap_absen'] = $this->db->get()->result();
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
