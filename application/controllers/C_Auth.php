@@ -40,7 +40,9 @@ class C_Auth extends CI_Controller
 				if (password_verify($password, $users->password)) {
 					// Jika password cocok, simpan data pengguna ke session
 					$data = array(
-						'username' => $users->username
+						'id_users' => $users->id_users,
+						'username' => $users->username,
+						'role_id' => $users->role_id
 					);
 					$this->session->set_userdata($data);
 

@@ -3,7 +3,11 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+<<<<<<< HEAD
 -- Generation Time: Jan 20, 2024 at 12:02 PM
+=======
+-- Generation Time: Jan 20, 2024 at 09:44 AM
+>>>>>>> b6b92aef78465baa29a817b6ec0c916dff1722a0
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.4
 
@@ -200,10 +204,17 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
+<<<<<<< HEAD
 INSERT INTO `users` (`id_users`, `users_name`, `email`, `username`, `password`, `role_id`) VALUES
 (1, 'Super Admin', NULL, 'admin', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 1),
 (9, 'fajar gunawan', 'hapissiau@gmail.com', 'fajarfajar', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 2),
 (11, 'riorio', 'rio@mail.com', 'rio', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 2);
+=======
+INSERT INTO `users` (`id_users`, `users_name`, `username`, `password`, `role_id`) VALUES
+(1, 'Super Admin', 'admin', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 1),
+(9, 'fajar gunawan', 'fajarfajar', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 2),
+(11, 'riorio', 'rio', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 2);
+>>>>>>> b6b92aef78465baa29a817b6ec0c916dff1722a0
 
 --
 -- Indexes for dumped tables

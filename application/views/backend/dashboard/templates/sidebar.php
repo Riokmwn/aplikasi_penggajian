@@ -59,39 +59,41 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-user-friends"></i>
-                            <p>
-                                Data Master
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <?php if ($this->session->userdata('username') == 'admin') : ?>
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_User/data_user') ?>" class="nav-link">
-                                    <p>Data User</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_Bpjs/data_bpjs') ?>" class="nav-link">
-                                    <p>Data BPJS</p>
-                                </a>
-                            </li>
-                            <?php endif ?>
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_Karyawan/data_karyawan') ?>" class="nav-link">
-                                    <p>Data Karyawan</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_Jabatan/data_jabatan') ?>" class="nav-link">
-                                    <p>Data Jabatan</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    <?php if ($_SESSION['role_id'] == 1) { ?>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-friends"></i>
+                                <p>
+                                    Data Master
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <?php if ($this->session->userdata('username') == 'admin') : ?>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('C_User/data_user') ?>" class="nav-link">
+                                        <p>Data User</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('C_Bpjs/data_bpjs') ?>" class="nav-link">
+                                        <p>Data BPJS</p>
+                                    </a>
+                                </li>
+                                <?php endif ?>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('C_Karyawan/data_karyawan') ?>" class="nav-link">
+                                        <p>Data Karyawan</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?= base_url('C_Jabatan/data_jabatan') ?>" class="nav-link">
+                                        <p>Data Jabatan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    <?php } ?>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-money-bill-wave"></i>

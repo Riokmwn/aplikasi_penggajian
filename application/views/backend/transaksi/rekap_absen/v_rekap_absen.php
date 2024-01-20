@@ -19,7 +19,7 @@
                                 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
                             );
                             foreach ($bulan as $row) { ?>
-                                <option value="<?php echo $row ?>">
+                                <option value="<?php echo $row ?>" <?= $_GET && $_GET['bulan'] == $row ? 'selected' : '' ?>>
                                     <?php echo $row ?>
                                 </option>
                             <?php } ?>
@@ -34,7 +34,7 @@
                             <?php
                             $current_year = date('Y');
                             for ($i = 2020; $i <= $current_year; $i++) { ?>
-                                <option value="<?php echo $i ?>">
+                                <option value="<?php echo $i ?>" <?= $_GET && $_GET['tahun'] == $i ? 'selected' : '' ?>>
                                     <?php echo $i ?>
                                 </option>
                             <?php } ?>
@@ -52,14 +52,17 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <a href="<?= base_url('C_Rekap_Absen/add_rekap_absen') ?>" type="button" class="btn btn-primary float-right">
-                        Tambah Rekap Absen
-                    </a>
+            <?php if ($_SESSION['role_id'] == 1) { ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <a href="<?= base_url('C_Rekap_Absen/add_rekap_absen') ?>" type="button" class="btn btn-primary float-right">
+                            Tambah Rekap Absen
+                        </a>
+                    </div>
                 </div>
-            </div>
-
+            <?php } ?>
+            
+            <?php if ($_SESSION['role_id'] == 1) { ?>
             <!-- Search Button -->
             <form class="mt-3" method="GET" action="<?= site_url('C_Rekap_Absen/data_rekap_absen') ?>">
                 <div class="input-group mb-3">
@@ -71,6 +74,7 @@
                     </div>
                 </div>
             </form>
+            <?php } ?>
         </div><!-- /.container-fluid -->
     </section>
 
@@ -122,7 +126,9 @@
                                                 <th>Izin</th>
                                                 <th>Sakit</th>
                                                 <th>Tidak Hadir</th>
+                                                <?php if ($_SESSION['role_id'] == 1) { ?>
                                                 <th>Aksi</th>
+                                                <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -142,10 +148,12 @@
                                                     <td><?= $rekap->rekap_absen_izin; ?></td>
                                                     <td><?= $rekap->rekap_absen_sakit; ?></td>
                                                     <td><?= $rekap->rekap_absen_tidak_hadir; ?></td>
+                                                    <?php if ($_SESSION['role_id'] == 1) { ?>
                                                     <td>
                                                         <a href="<?= base_url('C_Rekap_Absen/edit_rekap_absen/' . $rekap->id_karyawan . '/' . $rekap->rekap_absen_bulan . '/' . $rekap->rekap_absen_tahun) ?>" class="btn btn-sm btn-warning mb-1">Ubah</a>
                                                         <button class="btn btn-sm btn-danger mb-1 delete" data-url="<?= base_url('C_Rekap_Absen/delete_rekap_absen/' . $rekap->id_karyawan . '/' . $rekap->rekap_absen_bulan . '/' . $rekap->rekap_absen_tahun) ?>">Hapus</button>
                                                     </td>
+                                                    <?php } ?>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>
@@ -155,23 +163,25 @@
                         </div>
                         <!-- /.card-body -->
                         <!-- Pagination -->
-                        <nav>
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . ($current_page - 1)) ?>">Previous</a>
-                                </li>
-                                <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
-                                    <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
-                                        <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . $i) ?>">
-                                            <?= $i ?>
-                                        </a>
+                        <?php if ($_SESSION['role_id'] == 1) { ?>
+                            <nav>
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item <?= ($current_page == 1) ? 'disabled' : '' ?>">
+                                        <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . ($current_page - 1)) ?>">Previous</a>
                                     </li>
-                                <?php } ?>
-                                <li class="page-item <?= ($current_page == $total_pages) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . ($current_page + 1)) ?>">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                                    <?php for ($i = 1; $i <= $total_pages; $i++) { ?>
+                                        <li class="page-item <?= ($current_page == $i) ? 'active' : '' ?>">
+                                            <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . $i) ?>">
+                                                <?= $i ?>
+                                            </a>
+                                        </li>
+                                    <?php } ?>
+                                        <li class="page-item <?= ($current_page == $total_pages) ? 'disabled' : '' ?>">
+                                            <a class="page-link" href="<?= base_url('C_Rekap_Absen/data_rekap_absen/index?page=' . ($current_page + 1)) ?>">Next</a>
+                                        </li>
+                                </ul>
+                            </nav>
+                        <?php } ?>
                     </div>
                     <!-- /.card -->
                 </div>

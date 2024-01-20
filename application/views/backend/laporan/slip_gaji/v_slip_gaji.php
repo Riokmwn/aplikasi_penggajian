@@ -55,17 +55,19 @@
                                 </select>
                                 <?php echo form_error('tahun', '<small class="text-danger">', '</small>'); ?>
                             </div>
-                            <div class="form-group">
-                                <label for="karyawan">Karyawan:</label>
-                                <select class="form-control" id="karyawan" name="karyawan">
-                                    <option value="">Pilih Karyawan</option>
-                                    <?php foreach ($karyawan as $row) { ?>
-                                        <option value="<?php echo $row->id_karyawan ?>"><?php echo $row->karyawan_nama ?>
-                                        </option>
-                                    <?php } ?>
-                                </select>
-                                <?php echo form_error('karyawan', '<small class="text-danger">', '</small>'); ?>
-                            </div>
+                            <?php if ($_SESSION['role_id'] == 1) { ?>
+                                <div class="form-group">
+                                    <label for="karyawan">Karyawan:</label>
+                                    <select class="form-control" id="karyawan" name="karyawan">
+                                        <option value="">Pilih Karyawan</option>
+                                        <?php foreach ($karyawan as $row) { ?>
+                                            <option value="<?php echo $row->id_karyawan ?>"><?php echo $row->karyawan_nama ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+                                    <?php echo form_error('karyawan', '<small class="text-danger">', '</small>'); ?>
+                                </div>
+                            <?php } ?>
                         </div>
                         <!-- /.card-body -->
                         <div class="card-footer">
