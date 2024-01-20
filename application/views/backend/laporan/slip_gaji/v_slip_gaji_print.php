@@ -1,13 +1,12 @@
 <div class="page">
     <div class="container">
         <div class="d-flex justify-content-end mt-2">
-            <button id="back-button" data-url="<?= base_url('C_Slip_Gaji/data_slip_gaji') ?>" class="btn btn-secondary hidden_print mr-2">Kembali</button>
             <button id="print_page_now" class="btn btn-info hidden_print"><i class="fas fa-print mr-2"></i>Print</button>
         </div>
         <!-- Logo perusahaan dan bagian hero section -->
         <div class="text-center mt-lg-5">
             <img src="<?= base_url('assets/img/logo.png') ?>" style="width: 800px; height: 250px;" alt="Logo Perusahaan" class="logo-img">
-            <h1 class="mt-3">PT LeMondial Career</h1>
+            <h1 class="mt-3">PT.HITTACINDO Career</h1>
             <h2>Slip Gaji Karyawan</>
                 <hr style="border: 2px solid black">
         </div>
@@ -80,7 +79,7 @@
                             <div style="text-align: center;" class="font-weight-bold">TOTAL</div>
                         </td>
                         <td style="border: 2px solid black; padding: 10px;" class="font-weight-bold">
-                            <?= number_format($slip_gaji->rekap_gaji_total); ?></td>
+                            Rp. <?= number_format($slip_gaji->rekap_gaji_total); ?></td>
                     </tr>
                 </tfoot>
             </table>

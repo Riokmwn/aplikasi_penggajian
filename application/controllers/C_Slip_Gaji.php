@@ -9,13 +9,13 @@ class C_Slip_Gaji extends CI_Controller
         $this->load->model('M_User');
         $this->load->model('M_Karyawan');
         $this->load->model('M_Data_Gaji');
-        if (!$this->session->userdata('username')) {
-            redirect('C_Auth');
-        }
     }
 
     function data_slip_gaji()
     {
+        if (!$this->session->userdata('username')) {
+            redirect('C_Auth');
+        }
         $data['judul'] = 'Halaman Slip Gaji';
         $data['karyawan'] = $this->M_Karyawan->get_all_karyawan();
 

@@ -121,6 +121,7 @@
                                                 <th>Transportasi</th>
                                                 <th>Potongan</th>
                                                 <th>Total Gaji</th>
+                                                <th>Aksi</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -147,6 +148,9 @@
                                                     </td>
                                                     <td>Rp. <?= number_format(floatval($rekap->rekap_gaji_potongan)); ?></td>
                                                     <td>Rp. <?= number_format(floatval($rekap->rekap_gaji_total)); ?></td>
+                                                    <td>
+                                                        <a href="<?= base_url() ?>C_Email?bulan=<?= $rekap->rekap_gaji_bulan; ?>&tahun=<?= $rekap->rekap_gaji_tahun; ?>&karyawan_id=<?= $rekap->karyawan_id; ?>" class="btn btn-primary">Kirim Slip</a>
+                                                    </td>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>

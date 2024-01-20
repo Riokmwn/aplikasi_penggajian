@@ -40,6 +40,7 @@ class M_Data_Gaji extends CI_Model
         $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
         $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
         $this->db->join('rekap_gaji', 'karyawan.id_karyawan = rekap_gaji.karyawan_id');
+        $this->db->join('users', 'karyawan.user_id = users.id_users');
         $this->db->where('rekap_gaji_bulan', $selectedMonth);
         $this->db->where('rekap_gaji_tahun', $selectedYear);
         $this->db->where('id_karyawan', $karyawan);
