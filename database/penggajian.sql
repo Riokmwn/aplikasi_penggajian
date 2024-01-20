@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 12, 2023 at 10:58 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Jan 20, 2024 at 09:44 AM
+-- Server version: 10.4.11-MariaDB
+-- PHP Version: 7.4.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -31,7 +31,7 @@ CREATE TABLE `bpjs` (
   `id_bpjs` int(11) NOT NULL,
   `bpjs_kelas` varchar(10) NOT NULL,
   `bpjs_biaya` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bpjs`
@@ -55,7 +55,7 @@ CREATE TABLE `jabatan` (
   `jabatan_gaji_makan` int(20) NOT NULL,
   `jabatan_gaji_transportasi` int(20) NOT NULL,
   `jabatan_total_gaji` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `jabatan`
@@ -77,7 +77,7 @@ INSERT INTO `jabatan` (`id_jabatan`, `jabatan_nama`, `jabatan_gaji_pokok`, `jaba
 CREATE TABLE `jenis_kelamin` (
   `id_jenis_kelamin` int(11) NOT NULL,
   `jenis_kelamin_nama` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `jenis_kelamin`
@@ -95,21 +95,22 @@ INSERT INTO `jenis_kelamin` (`id_jenis_kelamin`, `jenis_kelamin_nama`) VALUES
 
 CREATE TABLE `karyawan` (
   `id_karyawan` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
   `nik_karyawan` varchar(16) NOT NULL,
   `karyawan_nama` varchar(50) NOT NULL,
   `karyawan_tanggal_masuk` date NOT NULL,
   `jenis_kelamin_id` int(11) NOT NULL,
   `jabatan_id` int(11) NOT NULL,
   `status_karyawan_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `karyawan`
 --
 
-INSERT INTO `karyawan` (`id_karyawan`, `nik_karyawan`, `karyawan_nama`, `karyawan_tanggal_masuk`, `jenis_kelamin_id`, `jabatan_id`, `status_karyawan_id`) VALUES
-(1, '1234567891011123', 'Arif Suganda', '2023-05-01', 1, 1, 1),
-(3, '1234567891011124', 'RioRio', '2023-05-01', 1, 4, 1);
+INSERT INTO `karyawan` (`id_karyawan`, `user_id`, `nik_karyawan`, `karyawan_nama`, `karyawan_tanggal_masuk`, `jenis_kelamin_id`, `jabatan_id`, `status_karyawan_id`) VALUES
+(1, 9, '1234567891011123', 'Fajar', '2023-05-01', 1, 1, 1),
+(3, 11, '1234567891011124', 'RioRio', '2023-05-01', 1, 4, 1);
 
 -- --------------------------------------------------------
 
@@ -126,7 +127,7 @@ CREATE TABLE `rekap_absen` (
   `rekap_absen_izin` int(2) NOT NULL,
   `rekap_absen_sakit` int(2) NOT NULL,
   `rekap_absen_tidak_hadir` int(2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rekap_absen`
@@ -151,7 +152,7 @@ CREATE TABLE `rekap_gaji` (
   `rekap_gaji_transportasi` int(20) NOT NULL,
   `rekap_gaji_potongan` int(20) NOT NULL,
   `rekap_gaji_total` int(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rekap_gaji`
@@ -170,7 +171,7 @@ INSERT INTO `rekap_gaji` (`karyawan_id`, `rekap_gaji_bulan`, `rekap_gaji_tahun`,
 CREATE TABLE `status_karyawan` (
   `id_status_karyawan` int(11) NOT NULL,
   `status_karyawan_nama` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `status_karyawan`
@@ -192,16 +193,16 @@ CREATE TABLE `users` (
   `username` varchar(50) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role_id` int(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id_users`, `users_name`, `username`, `password`, `role_id`) VALUES
-(1, 'Super Admin', 'admin', '$2y$10$zzeEtYDyNxGpBgJydZT0sOgDCG2uBPwfbs66oqBKuMbmq3tc4gT5.', 1),
-(9, 'fajar gunawan', 'fajarfajar', '$2y$10$QphUm6NLj00FixbzwydjsehQ0QzDSsZY9d61xmw61KCMGItkIZfTK', 2),
-(11, 'riorio', 'rio', '$2y$10$M4dDFpXSNARFRHdl9HPs6OBPhIzU8W5NKIHC6fCBkFr1nvCVVRxn6', 2);
+(1, 'Super Admin', 'admin', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 1),
+(9, 'fajar gunawan', 'fajarfajar', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 2),
+(11, 'riorio', 'rio', '$2y$10$K4nemqFUPV1D8QNI48iwnuD/GIPDEcvboY54.TvHe8Vo9HRqFW8RO', 2);
 
 --
 -- Indexes for dumped tables
