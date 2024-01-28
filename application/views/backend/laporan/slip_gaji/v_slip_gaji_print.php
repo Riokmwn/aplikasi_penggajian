@@ -6,7 +6,7 @@
         <!-- Logo perusahaan dan bagian hero section -->
         <div class="text-center mt-lg-5">
             <img src="<?= base_url('assets/img/logo.png') ?>" style="width: 800px; height: 250px;" alt="Logo Perusahaan" class="logo-img">
-            <h1 class="mt-3">PT.HITTACINDO Career</h1>
+            <h1 class="mt-3">PT.ANEKA HITTACINDO PRATAMA </h1>
             <h2>Slip Gaji Karyawan</>
                 <hr style="border: 2px solid black">
         </div>

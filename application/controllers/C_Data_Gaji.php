@@ -36,6 +36,7 @@ class C_Data_Gaji extends CI_Controller
         $this->db->like('karyawan_nama', $search);
         
         $data['rekap_gaji'] = $this->db->get()->result();
+        $data['judul'] = 'Data Gaji';
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');

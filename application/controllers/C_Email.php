@@ -28,7 +28,7 @@ class C_Email extends CI_Controller {
             'mailtype'  => 'html',
             'charset'   => 'utf-8',
             'protocol'  => 'smtp',
-            'smtp_name' => 'PT. HITTACINDO',
+            'smtp_name' => 'PT. ANEKA HITTACINDO PRATAMA',
             'smtp_host' => 'smtp.gmail.com',
             'smtp_user' => 'studytraceriti@gmail.com',  // Email gmail
             'smtp_pass'   => 'qwwjiekubtopueyh',  // Password gmail
