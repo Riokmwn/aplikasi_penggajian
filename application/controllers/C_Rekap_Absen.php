@@ -102,7 +102,11 @@ class C_Rekap_Absen extends CI_Controller
                 $rekap_gaji_pokok = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_pokok / 20) : 0;
                 $rekap_gaji_makan = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_makan / 20) : 0;
                 $rekap_gaji_transportasi = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_transportasi / 20) : 0;
-                $rekap_gaji_potongan = isset($this->input->post('tidak_hadir')[$i]) ? ($this->input->post('tidak_hadir')[$i] * ($rekap_gaji_total / 20)) + (isset($this->input->post('telat')[$i]) ? ($this->input->post('telat')[$i] * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
+                $rekap_gaji_potongan = isset($this->input->post('tidak_hadir')[$i]) ? ($this->input->post('tidak_hadir')[$i] * ($jabatan_gaji_pokok / 20)) + (isset($this->input->post('telat')[$i]) ? ($this->input->post('telat')[$i] * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
+                    $rekap_gaji_tidak_masuk = isset($this->input->post('tidak_hadir')[$i]) ? ($this->input->post('tidak_hadir')[$i] * ($rekap_gaji_pokok / 20)) : 0;
+                    $rekap_gaji_telat_makan = isset($this->input->post('telat')[$i]) ? ($this->input->post('telat')[$i] * ($jabatan_gaji_makan / 20)) : 0;
+                    $rekap_gaji_telat_transportasi = isset($this->input->post('telat')[$i]) ? ($this->input->post('telat')[$i] * ($jabatan_gaji_transportasi / 20)) : 0;
+                    $rekap_gaji_total += isset($this->input->post('hadir')[$i]) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - ($rekap_gaji_tidak_masuk + $rekap_gaji_telat_makan + $rekap_gaji_telat_transportasi)) : 0;
                 $rekap_gaji_total += isset($this->input->post('hadir')[$i]) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - $rekap_gaji_potongan) : 0;
 
                 $data2 = array(
@@ -171,7 +175,11 @@ class C_Rekap_Absen extends CI_Controller
             $rekap_gaji_pokok = ($this->input->post('hadir')) ? $this->input->post('hadir') * ($jabatan_gaji_pokok / 20) : 0;
             $rekap_gaji_makan = ($this->input->post('hadir')) ? $this->input->post('hadir') * ($jabatan_gaji_makan / 20) : 0;
             $rekap_gaji_transportasi = ($this->input->post('hadir')) ? $this->input->post('hadir') * ($jabatan_gaji_transportasi / 20) : 0;
-            $rekap_gaji_potongan = ($this->input->post('tidak_hadir')) ? ($this->input->post('tidak_hadir') * ($rekap_gaji_total / 20)) + (($this->input->post('telat')) ? ($this->input->post('telat') * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
+            $rekap_gaji_potongan = ($this->input->post('tidak_hadir')) ? ($this->input->post('tidak_hadir') * ($jabatan_gaji_pokok / 20)) + (($this->input->post('telat')) ? ($this->input->post('telat') * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
+            $rekap_gaji_tidak_masuk = (($this->input->post('tidak_hadir')) ? ($this->input->post('tidak_hadir') * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0);
+            $rekap_gaji_telat_makan = (($this->input->post('telat')) ? ($this->input->post('telat') * ($jabatan_gaji_makan / 20)) : 0);
+            $rekap_gaji_telat_transportasi = (($this->input->post('telat')) ? ($this->input->post('telat') * ($jabatan_gaji_transportasi / 20)) : 0);
+            $rekap_gaji_total += ($this->input->post('hadir')) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - ($rekap_gaji_tidak_masuk + $rekap_gaji_telat_makan + $rekap_gaji_telat_transportasi)) : 0;
             $rekap_gaji_total += ($this->input->post('hadir')) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - $rekap_gaji_potongan) : 0;
 
             $data2 = array(
