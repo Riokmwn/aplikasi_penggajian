@@ -5,6 +5,7 @@ class M_User extends CI_Model
     function check_user($username)
     {
         $this->db->where('username', $username);
+        $this->db->order_by('users_name', 'ASC');
         $query = $this->db->get('users');
         if ($query->num_rows() > 0) {
             return true;
@@ -24,6 +25,7 @@ class M_User extends CI_Model
     function get_akun_karyawan()
     {
         $this->db->where('role_id', 2);
+        $this->db->order_by('users_name', 'ASC');
         return $this->db->get('users')->result();
     }
 
@@ -36,12 +38,14 @@ class M_User extends CI_Model
     {
         $this->db->where('role_id', 2);
         $this->db->like('users_name', $search);
+        $this->db->order_by('users_name', 'ASC');
         return $this->db->get('users')->result();
     }
 
     function add_user($data)
     {
-        return $this->db->insert('users', $data);
+        $this->db->insert('users', $data);
+        return $this->db->insert_id();
     }
 
     function delete_users($id_users)

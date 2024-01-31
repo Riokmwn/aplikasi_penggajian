@@ -48,6 +48,7 @@
                                             <th>No</th>
                                             <th>Username</th>
                                             <th>Nama Pengguna</th>
+                                            <th>Email</th>
                                             <th>Password</th>
                                             <th>Aksi</th>
                                         </tr>
@@ -60,6 +61,7 @@
                                                 <td><?= $no++; ?></td>
                                                 <td><?= $user->username; ?></td>
                                                 <td><?= $user->users_name; ?></td>
+                                                <td><?= $user->email; ?></td>
                                                 <td>
                                                     <button class="btn btn-sm btn-success reset-password" data-url="<?= base_url('C_Auth/reset_password/' . $user->id_users) ?>">Reset
                                                         Password</button>

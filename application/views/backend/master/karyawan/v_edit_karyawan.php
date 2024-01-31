@@ -70,6 +70,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="text" class="form-control" id="email"
+                                        placeholder="Email" name="email"
+                                        value="<?php echo $karyawan->email ?>">
+                                    <?php echo form_error('email', '<small class="text-danger">', '</small>'); ?>
+                                </div>
+                                <div class="form-group">
                                     <label for="status_karyawan">Status Karyawan</label>
                                     <select class="form-control" id="status_karyawan" name="status_karyawan">
                                         <option value="">Pilih Status Karyawan</option>

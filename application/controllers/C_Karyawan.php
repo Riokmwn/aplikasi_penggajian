@@ -44,6 +44,7 @@ class C_Karyawan extends CI_Controller
     function add_karyawan()
     {
         $this->form_validation->set_rules('nik_karyawan', 'NIK Karyawan', 'required|is_unique[karyawan.nik_karyawan]|numeric|trim|min_length[16]');
+        $this->form_validation->set_rules('email', 'Email');
         $this->form_validation->set_rules('nama_karyawan', 'Nama Karyawan', 'required|trim');
         $this->form_validation->set_rules('tanggal_masuk', 'Tanggal Masuk', 'required|trim');
         $this->form_validation->set_rules('jenis_kelamin', 'Jenis Kelamin', 'required|trim');
@@ -62,8 +63,18 @@ class C_Karyawan extends CI_Controller
             $this->load->view('backend/master/karyawan/v_data_karyawan', $data);
             $this->load->view('backend/dashboard/templates/footer');
         } else {
+
+            $data_users = array(
+                'users_name' => $this->input->post('nama_karyawan'),
+                'email' => $this->input->post('email'),
+                'username' => strtolower(str_replace(" ", "_", $this->input->post('nama_karyawan'))) . time(),
+                'password' => password_hash(123456, PASSWORD_DEFAULT),
+                'role_id' => 2
+            );
+            $user = $this->M_User->add_user($data_users);
             // Jika form validation valid, tambahkan data ke database
             $data = array(
+                'user_id' => $user,
                 'nik_karyawan' => $this->input->post('nik_karyawan'),
                 'karyawan_nama' => $this->input->post('nama_karyawan'),
                 'karyawan_tanggal_masuk' => $this->input->post('tanggal_masuk'),
@@ -107,6 +118,12 @@ class C_Karyawan extends CI_Controller
             $this->load->view('backend/master/karyawan/v_edit_karyawan', $data);
             $this->load->view('backend/dashboard/templates/footer');
         } else {
+            $krywn = $this->db->where('id_karyawan', $id_karyawan)->get('karyawan')->row();
+            $data_users = array(
+                'email' => $this->input->post('email')
+            );
+            $this->db->where('id_users', $krywn->user_id);
+            $this->db->update('users', $data_users);
             $data = array(
                 'nik_karyawan' => $this->input->post('nik_karyawan'),
                 'karyawan_nama' => $this->input->post('nama_karyawan'),

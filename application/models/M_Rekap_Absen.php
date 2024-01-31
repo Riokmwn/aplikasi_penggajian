@@ -9,6 +9,7 @@ class M_Rekap_Absen extends CI_Model
         $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
         $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
         $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
+        $this->db->order_by('karyawan_nama', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }
@@ -38,6 +39,7 @@ class M_Rekap_Absen extends CI_Model
         $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
         $this->db->where('rekap_absen_bulan', $selectedMonth);
         $this->db->where('rekap_absen_tahun', $selectedYear);
+        $this->db->order_by('karyawan_nama', 'ASC');
         $query = $this->db->get();
 
         return $query->result();
@@ -53,6 +55,7 @@ class M_Rekap_Absen extends CI_Model
         $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
         $this->db->like('nik_karyawan', $search);
         $this->db->or_like('karyawan_nama', $search);
+        $this->db->order_by('karyawan_nama', 'ASC');
         $query = $this->db->get();
 
         return $query->result();

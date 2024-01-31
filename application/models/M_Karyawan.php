@@ -8,13 +8,14 @@ class M_Karyawan extends CI_Model
         $this->db->join('jenis_kelamin', 'karyawan.jenis_kelamin_id = jenis_kelamin.id_jenis_kelamin');
         $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
         $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
+        $this->db->order_by('karyawan_nama', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }
 
     function get_karyawan_by_id($id_karyawan)
     {
-        return $this->db->get_where('karyawan', array('id_karyawan' => $id_karyawan))->row();
+        return $this->db->join('users', 'users.id_users = karyawan.user_id')->get_where('karyawan', array('id_karyawan' => $id_karyawan))->row();
     }
 
     function get_nik_karyawan_by_id($id_karyawan)
@@ -34,8 +35,12 @@ class M_Karyawan extends CI_Model
 
     function search_nik_name_karyawan($search)
     {
+        $this->db->join('jenis_kelamin', 'karyawan.jenis_kelamin_id = jenis_kelamin.id_jenis_kelamin');
+        $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
+        $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
         $this->db->like('nik_karyawan', $search);
         $this->db->or_like('karyawan_nama', $search);
+        $this->db->order_by('karyawan_nama', 'ASC');
         return $this->db->get('karyawan')->result();
     }
 

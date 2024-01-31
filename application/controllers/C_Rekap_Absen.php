@@ -59,11 +59,6 @@ class C_Rekap_Absen extends CI_Controller
     {
         $this->form_validation->set_rules('bulan', 'Bulan', 'required|trim');
         $this->form_validation->set_rules('tahun', 'Tahun', 'required|trim');
-        $this->form_validation->set_rules('hadir[]', 'Absen Hadir', 'required|trim');
-        $this->form_validation->set_rules('telat[]', 'Absen Telat', 'required|trim');
-        $this->form_validation->set_rules('izin[]', 'Absen Izin', 'required|trim');
-        $this->form_validation->set_rules('sakit[]', 'Absen Sakit', 'required|trim');
-        $this->form_validation->set_rules('tidak_hadir[]', 'Absen Tidak Hadir', 'required|trim');
 
         if ($this->form_validation->run() == FALSE) {
             $data['judul'] = 'Halaman Tambah Rekap Absen';
@@ -82,47 +77,49 @@ class C_Rekap_Absen extends CI_Controller
             $array_gaji = array(); // Buat array kosong untuk menampung data rekap gaji
 
             for ($i = 0; $i < $total_data; $i++) {
-                $data = array(
-                    'karyawan_id' => isset($this->input->post('id_karyawan')[$i]) ? $this->input->post('id_karyawan')[$i] : '',
-                    'rekap_absen_bulan' => isset($bulan) ? $bulan : '',
-                    'rekap_absen_tahun' => isset($tahun) ? $tahun : '',
-                    'rekap_absen_hadir' => isset($this->input->post('hadir')[$i]) ? intval($this->input->post('hadir')[$i]) : 0,
-                    'rekap_absen_telat' => isset($this->input->post('telat')[$i]) ? intval($this->input->post('telat')[$i]) : 0,
-                    'rekap_absen_izin' => isset($this->input->post('izin')[$i]) ? intval($this->input->post('izin')[$i]) : 0,
-                    'rekap_absen_sakit' => isset($this->input->post('sakit')[$i]) ? intval($this->input->post('sakit')[$i]) : 0,
-                    'rekap_absen_tidak_hadir' => isset($this->input->post('tidak_hadir')[$i]) ? intval($this->input->post('tidak_hadir')[$i]) : 0
-                );
-
-                $jabatan_gaji = $this->M_Jabatan->get_jabatan_gaji($this->input->post('id_karyawan')[$i]);
-                $jabatan_gaji_pokok = $jabatan_gaji['jabatan_gaji_pokok'];
-                $jabatan_gaji_makan = $jabatan_gaji['jabatan_gaji_makan'];
-                $jabatan_gaji_transportasi = $jabatan_gaji['jabatan_gaji_transportasi'];
-                $rekap_gaji_total = 0;
-
-                $rekap_gaji_pokok = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_pokok / 20) : 0;
-                $rekap_gaji_makan = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_makan / 20) : 0;
-                $rekap_gaji_transportasi = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_transportasi / 20) : 0;
-                $rekap_gaji_potongan = isset($this->input->post('tidak_hadir')[$i]) ? ($this->input->post('tidak_hadir')[$i] * ($rekap_gaji_total / 20)) + (isset($this->input->post('telat')[$i]) ? ($this->input->post('telat')[$i] * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
-                $rekap_gaji_total += isset($this->input->post('hadir')[$i]) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - $rekap_gaji_potongan) : 0;
-
-                $data2 = array(
-                    'karyawan_id' => isset($this->input->post('id_karyawan')[$i]) ? $this->input->post('id_karyawan')[$i] : '',
-                    'rekap_gaji_bulan' => isset($bulan) ? $bulan : '',
-                    'rekap_gaji_tahun' => isset($tahun) ? $tahun : '',
-                    // 'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
-                    // 'rekap_gaji_makan' => intval($rekap_gaji_makan),
-                    // 'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
-                    // 'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
-                    // 'rekap_gaji_total' => intval($rekap_gaji_total)
-                    'rekap_gaji_pokok' => isset($rekap_gaji_pokok) ? (int) preg_replace('/\D/', '', $rekap_gaji_pokok) : 0,
-                    'rekap_gaji_makan' => isset($rekap_gaji_makan) ? (int) preg_replace('/\D/', '', $rekap_gaji_makan) : 0,
-                    'rekap_gaji_transportasi' => isset($rekap_gaji_transportasi) ? (int) preg_replace('/\D/', '', $rekap_gaji_transportasi) : 0,
-                    'rekap_gaji_potongan' => isset($rekap_gaji_potongan) ? (int) preg_replace('/\D/', '', $rekap_gaji_potongan) : 0,
-                    'rekap_gaji_total' => isset($rekap_gaji_total) ? (int) preg_replace('/\D/', '', $rekap_gaji_total) : 0
-                );
-
-                $array_data[] = $data;
-                $array_gaji[] = $data2;
+                if ($this->input->post('hadir')[$i] > 0) {
+                    $data = array(
+                        'karyawan_id' => isset($this->input->post('id_karyawan')[$i]) ? $this->input->post('id_karyawan')[$i] : '',
+                        'rekap_absen_bulan' => isset($bulan) ? $bulan : '',
+                        'rekap_absen_tahun' => isset($tahun) ? $tahun : '',
+                        'rekap_absen_hadir' => isset($this->input->post('hadir')[$i]) ? intval($this->input->post('hadir')[$i]) : 0,
+                        'rekap_absen_telat' => isset($this->input->post('telat')[$i]) ? intval($this->input->post('telat')[$i]) : 0,
+                        'rekap_absen_izin' => isset($this->input->post('izin')[$i]) ? intval($this->input->post('izin')[$i]) : 0,
+                        'rekap_absen_sakit' => isset($this->input->post('sakit')[$i]) ? intval($this->input->post('sakit')[$i]) : 0,
+                        'rekap_absen_tidak_hadir' => isset($this->input->post('tidak_hadir')[$i]) ? intval($this->input->post('tidak_hadir')[$i]) : 0
+                    );
+    
+                    $jabatan_gaji = $this->M_Jabatan->get_jabatan_gaji($this->input->post('id_karyawan')[$i]);
+                    $jabatan_gaji_pokok = $jabatan_gaji['jabatan_gaji_pokok'];
+                    $jabatan_gaji_makan = $jabatan_gaji['jabatan_gaji_makan'];
+                    $jabatan_gaji_transportasi = $jabatan_gaji['jabatan_gaji_transportasi'];
+                    $rekap_gaji_total = 0;
+    
+                    $rekap_gaji_pokok = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_pokok / 20) : 0;
+                    $rekap_gaji_makan = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_makan / 20) : 0;
+                    $rekap_gaji_transportasi = isset($this->input->post('hadir')[$i]) ? $this->input->post('hadir')[$i] * ($jabatan_gaji_transportasi / 20) : 0;
+                    $rekap_gaji_potongan = isset($this->input->post('tidak_hadir')[$i]) ? ($this->input->post('tidak_hadir')[$i] * ($rekap_gaji_total / 20)) + (isset($this->input->post('telat')[$i]) ? ($this->input->post('telat')[$i] * ($jabatan_gaji_makan / 20 + $jabatan_gaji_transportasi / 20)) : 0) : 0;
+                    $rekap_gaji_total += isset($this->input->post('hadir')[$i]) ? (($rekap_gaji_pokok + $rekap_gaji_makan + $rekap_gaji_transportasi) - $rekap_gaji_potongan) : 0;
+    
+                    $data2 = array(
+                        'karyawan_id' => isset($this->input->post('id_karyawan')[$i]) ? $this->input->post('id_karyawan')[$i] : '',
+                        'rekap_gaji_bulan' => isset($bulan) ? $bulan : '',
+                        'rekap_gaji_tahun' => isset($tahun) ? $tahun : '',
+                        // 'rekap_gaji_pokok' => intval($rekap_gaji_pokok),
+                        // 'rekap_gaji_makan' => intval($rekap_gaji_makan),
+                        // 'rekap_gaji_transportasi' => intval($rekap_gaji_transportasi),
+                        // 'rekap_gaji_potongan' => intval($rekap_gaji_potongan),
+                        // 'rekap_gaji_total' => intval($rekap_gaji_total)
+                        'rekap_gaji_pokok' => isset($rekap_gaji_pokok) ? (int) preg_replace('/\D/', '', $rekap_gaji_pokok) : 0,
+                        'rekap_gaji_makan' => isset($rekap_gaji_makan) ? (int) preg_replace('/\D/', '', $rekap_gaji_makan) : 0,
+                        'rekap_gaji_transportasi' => isset($rekap_gaji_transportasi) ? (int) preg_replace('/\D/', '', $rekap_gaji_transportasi) : 0,
+                        'rekap_gaji_potongan' => isset($rekap_gaji_potongan) ? (int) preg_replace('/\D/', '', $rekap_gaji_potongan) : 0,
+                        'rekap_gaji_total' => isset($rekap_gaji_total) ? (int) preg_replace('/\D/', '', $rekap_gaji_total) : 0
+                    );
+    
+                    $array_data[] = $data;
+                    $array_gaji[] = $data2;
+                }
             }
 
             if (!empty($array_data) && !empty($array_gaji)) {

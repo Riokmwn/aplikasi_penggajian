@@ -108,7 +108,7 @@
                                 <p>Data Belum Ada</p>
                             <?php } else { ?>
                                 <div class="table-responsive">
-                                    <table class="table table-bordered table-striped text-center">
+                                    <table class="table table-bordered table-striped">
                                         <thead>
                                             <tr>
                                                 <th>No</th>
@@ -122,7 +122,9 @@
                                                 <th>Transportasi</th>
                                                 <th>Potongan</th>
                                                 <th>Total Gaji</th>
+                                                <?php if ($_SESSION['role_id'] == 1) { ?>
                                                 <th>Aksi</th>
+                                                <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -147,11 +149,15 @@
                                                     <td>Rp. <?= number_format(floatval($rekap->rekap_gaji_makan)); ?></td>
                                                     <td>Rp. <?= number_format(floatval($rekap->rekap_gaji_transportasi)); ?>
                                                     </td>
-                                                    <td>Rp. <?= number_format(floatval($rekap->rekap_gaji_potongan)); ?></td>
-                                                    <td>Rp. <?= number_format(floatval($rekap->rekap_gaji_total)); ?></td>
+                                                    <td>
+                                                        Rp. <?= number_format(floatval($rekap->rekap_gaji_potongan)); ?><br>
+                                                    </td>
+                                                    <td>Rp. <?= number_format(floatval($rekap->rekap_gaji_total)); ?><br></td>
+                                                    <?php if ($_SESSION['role_id'] == 1) { ?>
                                                     <td>
                                                         <a href="<?= base_url() ?>C_Email?bulan=<?= $rekap->rekap_gaji_bulan; ?>&tahun=<?= $rekap->rekap_gaji_tahun; ?>&karyawan_id=<?= $rekap->karyawan_id; ?>" class="btn btn-primary">Kirim Slip</a>
                                                     </td>
+                                                    <?php } ?>
                                                 </tr>
                                             <?php } ?>
                                         </tbody>

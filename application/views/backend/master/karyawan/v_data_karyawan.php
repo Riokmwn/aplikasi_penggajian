@@ -64,6 +64,9 @@
                                         <th>No</th>
                                         <th>Nik Karyawan</th>
                                         <th>Nama Karyawan</th>
+                                        <th>Jenis Kelamin</th>
+                                        <th>Jabatan Karyawan</th>
+                                        <th>Status Karyawan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -77,6 +80,9 @@
                                         <td><?= $start_number++; ?></td>
                                         <td><?= $k->nik_karyawan; ?></td>
                                         <td><?= $k->karyawan_nama; ?></td>
+                                        <td><?= $k->jenis_kelamin_nama; ?></td>
+                                        <td><?= $k->jabatan_nama; ?></td>
+                                        <td><?= $k->status_karyawan_nama; ?></td>
                                         <td>
                                             <button data-toggle="modal"
                                                 data-target="#detailKaryawan<?= $k->id_karyawan ?>"
