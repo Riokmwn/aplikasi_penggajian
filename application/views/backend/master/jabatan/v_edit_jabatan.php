@@ -33,21 +33,21 @@
                                     <?php echo form_error('jabatan_nama', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
-                                    <label for="gaji_pokok">Gaji Pokok:</label>
-                                    <input type="text" class="form-control" id="gaji_pokok" placeholder="Gaji Pokok"
-                                        name="gaji_pokok" onkeyup="formatNumber(this)"
-                                        value="<?php echo number_format($jabatan->jabatan_gaji_pokok) ?>">
-                                    <?php echo form_error('gaji_pokok', '<small class="text-danger">', '</small>'); ?>
+                                    <label for="gaji_harian">Gaji Harian:</label>
+                                    <input type="text" class="form-control" id="gaji_harian" placeholder="Gaji Pokok"
+                                        name="gaji_harian" onkeyup="formatNumber(this)"
+                                        value="<?php echo number_format($jabatan->jabatan_gaji_harian) ?>">
+                                    <?php echo form_error('gaji_harian', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
-                                    <label for="uang_makan">Uang Makan:</label>
+                                    <label for="uang_makan">Uang Makan Harian:</label>
                                     <input type="text" class="form-control" id="uang_makan" placeholder="Uang Makan"
                                         name="uang_makan" onkeyup="formatNumber(this)"
                                         value="<?php echo number_format($jabatan->jabatan_gaji_makan) ?>">
                                     <?php echo form_error('uang_makan', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                                 <div class="form-group">
-                                    <label for="transportasi">Transportasi:</label>
+                                    <label for="transportasi">Transportasi Harian:</label>
                                     <input type="text" class="form-control" id="transportasi" placeholder="Transportasi"
                                         name="transportasi" onkeyup="formatNumber(this)"
                                         value="<?php echo number_format($jabatan->jabatan_gaji_transportasi) ?>">

@@ -39,7 +39,7 @@ class C_Jabatan extends CI_Controller
     function add_jabatan()
     {
         $this->form_validation->set_rules('jabatan_nama', 'Jabatan', 'required|trim');
-        $this->form_validation->set_rules('gaji_pokok', 'Gaji Pokok', 'required|trim');
+        $this->form_validation->set_rules('gaji_harian', 'Gaji Pokok', 'required|trim');
         $this->form_validation->set_rules('uang_makan', 'Uang Masuk', 'required|trim');
         $this->form_validation->set_rules('transportasi', 'Transportasi', 'required|trim');
 
@@ -55,10 +55,9 @@ class C_Jabatan extends CI_Controller
             // Jika form validation valid, tambahkan data ke database
             $data = array(
                 'jabatan_nama' => $this->input->post('jabatan_nama'),
-                'jabatan_gaji_pokok' => (int) preg_replace('/\D/', '', $this->input->post('gaji_pokok')),
+                'jabatan_gaji_harian' => (int) preg_replace('/\D/', '', $this->input->post('gaji_harian')),
                 'jabatan_gaji_makan' => (int) preg_replace('/\D/', '', $this->input->post('uang_makan')),
-                'jabatan_gaji_transportasi' => (int) preg_replace('/\D/', '', $this->input->post('transportasi')),
-                'jabatan_total_gaji' => (int) preg_replace('/\D/', '', $this->input->post('gaji_pokok')) + (int) preg_replace('/\D/', '', $this->input->post('uang_makan')) + (int) preg_replace('/\D/', '', $this->input->post('transportasi'))
+                'jabatan_gaji_transportasi' => (int) preg_replace('/\D/', '', $this->input->post('transportasi'))
             );
 
             $this->M_Jabatan->add_jabatan($data);
@@ -71,7 +70,7 @@ class C_Jabatan extends CI_Controller
     function edit_jabatan($id_jabatan)
     {
         $this->form_validation->set_rules('jabatan_nama', 'Jabatan', 'required|trim');
-        $this->form_validation->set_rules('gaji_pokok', 'Gaji Pokok', 'required|trim');
+        $this->form_validation->set_rules('gaji_harian', 'Gaji Pokok', 'required|trim');
         $this->form_validation->set_rules('uang_makan', 'Uang Masuk', 'required|trim');
         $this->form_validation->set_rules('transportasi', 'Transportasi', 'required|trim');
 
@@ -87,10 +86,9 @@ class C_Jabatan extends CI_Controller
         } else {
             $data = array(
                 'jabatan_nama' => $this->input->post('jabatan_nama'),
-                'jabatan_gaji_pokok' => (int) preg_replace('/\D/', '', $this->input->post('gaji_pokok')),
+                'jabatan_gaji_harian' => (int) preg_replace('/\D/', '', $this->input->post('gaji_harian')),
                 'jabatan_gaji_makan' => (int) preg_replace('/\D/', '', $this->input->post('uang_makan')),
-                'jabatan_gaji_transportasi' => (int) preg_replace('/\D/', '', $this->input->post('transportasi')),
-                'jabatan_total_gaji' => (int) preg_replace('/\D/', '', $this->input->post('gaji_pokok')) + (int) preg_replace('/\D/', '', $this->input->post('uang_makan')) + (int) preg_replace('/\D/', '', $this->input->post('transportasi'))
+                'jabatan_gaji_transportasi' => (int) preg_replace('/\D/', '', $this->input->post('transportasi'))
             );
 
             // Update data pada database

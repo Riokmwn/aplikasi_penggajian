@@ -63,10 +63,9 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Jabatan</th>
-                                        <th>Gaji Pokok</th>
-                                        <th>Uang Makan</th>
-                                        <th>Transportasi</th>
-                                        <th>Total Gaji</th>
+                                        <th>Gaji Harian</th>
+                                        <th>Uang Makan Harian</th>
+                                        <th>Transportasi Harian</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -77,10 +76,9 @@
                                     <tr>
                                         <td><?= $no++; ?></td>
                                         <td><?= $j->jabatan_nama; ?></td>
-                                        <td>Rp. <?= number_format($j->jabatan_gaji_pokok); ?></td>
+                                        <td>Rp. <?= number_format($j->jabatan_gaji_harian); ?></td>
                                         <td>Rp. <?= number_format($j->jabatan_gaji_makan); ?></td>
                                         <td>Rp. <?= number_format($j->jabatan_gaji_transportasi); ?></td>
-                                        <td>Rp. <?= number_format($j->jabatan_total_gaji); ?></td>
                                         <td>
                                             <a href="<?= base_url('C_Jabatan/edit_jabatan/' . $j->id_jabatan) ?>"
                                                 class="btn btn-sm btn-warning">Ubah</a>
