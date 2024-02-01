@@ -122,9 +122,6 @@
                                                 <th>Bulan</th>
                                                 <th>Tahun</th>
                                                 <th>Hadir</th>
-                                                <th>Telat</th>
-                                                <th>Izin</th>
-                                                <th>Sakit</th>
                                                 <th>Tidak Hadir</th>
                                                 <?php if ($_SESSION['role_id'] == 1) { ?>
                                                 <th>Aksi</th>
@@ -141,17 +138,14 @@
                                                     <td><?= $rekap->nik_karyawan; ?></td>
                                                     <td><?= $rekap->karyawan_nama; ?></td>
                                                     <td><?= $rekap->jabatan_nama; ?></td>
-                                                    <td><?= $rekap->rekap_absen_bulan; ?></td>
-                                                    <td><?= $rekap->rekap_absen_tahun; ?></td>
-                                                    <td><?= $rekap->rekap_absen_hadir; ?></td>
-                                                    <td><?= $rekap->rekap_absen_telat; ?></td>
-                                                    <td><?= $rekap->rekap_absen_izin; ?></td>
-                                                    <td><?= $rekap->rekap_absen_sakit; ?></td>
-                                                    <td><?= $rekap->rekap_absen_tidak_hadir; ?></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td><?= $rekap->hadir ?></td>
+                                                    <td><?= $rekap->tidak_hadir ?></td>
+                                                    
                                                     <?php if ($_SESSION['role_id'] == 1) { ?>
                                                     <td>
-                                                        <a href="<?= base_url('C_Rekap_Absen/edit_rekap_absen/' . $rekap->id_karyawan . '/' . $rekap->rekap_absen_bulan . '/' . $rekap->rekap_absen_tahun) ?>" class="btn btn-sm btn-warning mb-1">Ubah</a>
-                                                        <button class="btn btn-sm btn-danger mb-1 delete" data-url="<?= base_url('C_Rekap_Absen/delete_rekap_absen/' . $rekap->id_karyawan . '/' . $rekap->rekap_absen_bulan . '/' . $rekap->rekap_absen_tahun) ?>">Hapus</button>
+                                                        
                                                     </td>
                                                     <?php } ?>
                                                 </tr>

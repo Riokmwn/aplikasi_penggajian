@@ -39,15 +39,23 @@ class C_Rekap_Absen extends CI_Controller
         $this->db->join('jenis_kelamin', 'karyawan.jenis_kelamin_id = jenis_kelamin.id_jenis_kelamin');
         $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
         $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
-        $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
+        // $this->db->join('rekap_absen', 'karyawan.id_karyawan = rekap_absen.karyawan_id');
         if ($_SESSION['role_id'] == 2) {
             $this->db->where('karyawan.user_id', $_SESSION['id_users']);
         }
-        $this->db->like('rekap_absen_bulan', $selectedMonth);
-        $this->db->like('rekap_absen_tahun', $selectedYear);
         $this->db->like('nik_karyawan', $search);
         $this->db->like('karyawan_nama', $search);
-        $data['rekap_absen'] = $this->db->get()->result();
+        $rekap = $this->db->get()->result();
+
+        foreach ($rekap as $key => $value) {
+            $value->hadir = $this->db->get_where('absensi_harian', ['karyawan_id' => $value->id_karyawan, 'is_masuk' => 1])->num_rows();
+            $value->tidak_hadir = $this->db->get_where('absensi_harian', ['karyawan_id' => $value->id_karyawan, 'is_masuk' => 0])->num_rows();
+        }
+
+        // var_dump($rekap);
+        // die();
+
+        $data['rekap_absen'] = $rekap;
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
