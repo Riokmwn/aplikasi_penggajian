@@ -14,7 +14,7 @@
                 cancelButtonText: "Tidak, batalkan!",
             }).then((result) => {
                 if (result.isConfirmed) {
-                    deleteUrl(url);
+                    window.location.href = url;
                 } else {
                     cancelDeletion();
                 }
