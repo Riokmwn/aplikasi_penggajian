@@ -19,23 +19,17 @@ class GajiController extends CI_Controller
         $data['judul'] = 'Pembayaran Gaji';
         $data['bulan'] = $_POST['bulan'] ?? date('m');
         $data['tahun'] = $_POST['tahun'] ?? date('Y');
-        $data['karyawan_id'] = $_POST['karyawan_id'] ?? 0;
-        $bln = $data['bulan'];
-        $thn = $data['tahun'];
-        $karyawan_all = $this->db->query("SELECT DISTINCT karyawan_id  as karyawan_id FROM rekap_gaji_karyawan WHERE rekap_gaji_bulan = '$bln' AND rekap_gaji_tahun = '$thn' ")->result_array();
-        $karyawan_all = array_column($karyawan_all, 'karyawan_id');
-        if (count($karyawan_all) == 0) {
-            $karyawan_all = [0];
-        }
-        $data['karyawan'] = $this->db->where_not_in('id_karyawan', $karyawan_all)->get('karyawan')->result();
-        $data['gajian'] = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('posisi', 'posisi.id_posisi = rekap_gaji_karyawan.posisi_id')->get_where('rekap_gaji_karyawan', ['rekap_gaji_bulan' => $data['bulan'], 'rekap_gaji_tahun' => $data['tahun']])->result();
 
-        if ($_POST && $_POST['karyawan_id'] != '') {
-            $gajian = $this->generateGaji($data['bulan'], $data['tahun'], $data['karyawan_id']);
-            $check = $this->db->get_where('rekap_gaji_karyawan', ['rekap_gaji_bulan' => $gajian['rekap_gaji_bulan'], 'rekap_gaji_tahun' => $gajian['rekap_gaji_tahun'], 'karyawan_id' => $data['karyawan_id']])->row();
-            if (!$check) {
-                $this->db->insert('rekap_gaji_karyawan', $gajian);
+        if (isset($_POST['rekap'])) {
+            $data_rekap = $this->generateGaji($data['bulan'], $data['tahun'], $_POST['rekap']);
+            if ($data_rekap['karyawan_id']) {
+                $this->db->insert('rekap_gaji_karyawan', $data_rekap);
             }
+        }
+
+        $data['karyawan'] = $this->db->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->order_by('nama_karyawan')->get('karyawan')->result();
+        foreach ($data['karyawan'] as $key => $value) {
+            $value->gaji = $this->db->get_where('rekap_gaji_karyawan', ['rekap_gaji_bulan' => $data['bulan'], 'rekap_gaji_tahun' => $data['tahun'], 'karyawan_id' => $value->id_karyawan])->row();
         }
 
         $this->load->view('backend/dashboard/templates/header', $data);

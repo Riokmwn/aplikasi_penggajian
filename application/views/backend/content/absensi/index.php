@@ -93,20 +93,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <div class="col-md-12">
-                        <form method="post" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label>Pilih File Excel</label>
-                                <input type="file" name="fileExcel">
-                            </div>
-                            <div>
-                                <button class='btn btn-success' type="submit">
-                                    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-                                    Import		
-                                </button>
-                            </div>
-                        </form>
-                    </div>
                     <!-- /.card -->
                 </div>
                 <!--/.col (right) -->

@@ -21,7 +21,6 @@ class AbsensiController extends CI_Controller
         $data['karyawan_id'] = $_POST['karyawan_id'] ?? 0;
         $data['karyawan'] = $this->db->get('karyawan')->result();
         $data['absensi'] = $this->generateAbsensi($data['bulan'], $data['tahun'], $data['karyawan_id']);
-        $this->importAbsensi();
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
@@ -114,5 +113,14 @@ class AbsensiController extends CI_Controller
             }
             }
 		}
+
+        $data['judul'] = 'Input Data Absensi';
+        $data['bulan'] = $_POST['bulan'] ?? date('m');
+        $data['tahun'] = $_POST['tahun'] ?? date('Y');
+
+        $this->load->view('backend/dashboard/templates/header', $data);
+        $this->load->view('backend/dashboard/templates/sidebar');
+        $this->load->view('backend/content/absensi/import', $data);
+        $this->load->view('backend/dashboard/templates/footer');
 	}
 }

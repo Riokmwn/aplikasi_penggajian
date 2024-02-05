@@ -60,74 +60,83 @@
                         <table class="table table-bordered table-responsive table-striped text-center">
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>Karyawan</th>
-                                    <th>Posisi</th>
-                                    <th>Total Hari Masuk</th>
-                                    <th>Total Hari Telat</th>
-                                    <th>Total Hari Check Awal</th>
-                                    <th>Total Jam Lembur</th>
-                                    <th>Bayaran Harian</th>
-                                    <th>Bayaran Konsumsi Harian</th>
-                                    <th>Bayaran Transport Harian</th>
-                                    <th>Bayaran Lembur Perjam</th>
-                                    <th>Bayaran Penalti</th>
-                                    <th>Total Bayaran Harian</th>
-                                    <th>Total Bayaran Konsumsi Harian</th>
-                                    <th>Total Bayaran Transport Harian</th>
-                                    <th>Total Bayaran Lemburan Perjam</th>
-                                    <th>Total Potongan Penalti</th>
-                                    <th>Total Bayaran </th>
-                                    <th>Tanggal Rekap</th>
+                                    <th rowspan="2">No</th>
+                                    <th rowspan="2">Bulan</th>
+                                    <th rowspan="2">Tahun</th>
+                                    <th rowspan="2">Tanggal Rekap Gaji</th>
+                                    <th rowspan="2">Karyawan</th>
+                                    <th rowspan="2">Posisi</th>
+                                    <th rowspan="2">Absensi</th>
+                                    <th colspan="3">Detail Bayaran Harian</th>
+                                    <th colspan="4">Total Bayaran</th>
+                                    <th colspan="3">Lembur</th>
+                                    <th colspan="4">Pinalti</th>
+                                    <th rowspan="2">Total</th>
+                                </tr>
+                                <tr>
+                                    <th>Pokok Harian</th>
+                                    <th>Konsumsi</th>
+                                    <th>Transportasi</th>
+
+                                    <th>Pokok Harian</th>
+                                    <th>Konsumsi</th>
+                                    <th>Transportasi</th>
+                                    <th>Total</th>
+
+                                    <th>Jam Lembur</th>
+                                    <th>Bayaran per-Jam</th>
+                                    <th>Total</th>
+
+                                    <th>Telat</th>
+                                    <th>Checkout Awal</th>
+                                    <th>Potongan</th>
+                                    <th>Total</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $num = 1; foreach ($gajian as $key => $value) { ?>
-
+                                <?php $num = 1; foreach ($karyawan as $key => $value) { ?>
                                     <tr>
                                         <td><?= $num ?></td>
+                                        <td><?= $month[$bulan] ?></td>
+                                        <td><?= $tahun ?></td>
+                                        <td>
+                                            <?php if ($value->gaji) { ?>
+                                                <button class="w-100 btn btn-success btn-sm" disabled><?= $value->gaji->tanggal_rekap ?></button>
+                                            <?php } else { ?>
+                                                <button name="rekap" type="submit" class="w-100 btn btn-info btn-sm" value="<?= $value->id_karyawan ?>">Rekap</button>
+                                            <?php } ?>
+                                        </td>
                                         <td><?= $value->nama_karyawan ?></td>
                                         <td><?= $value->nama_posisi ?></td>
-                                        <td><?= $value->total_hari_masuk ?></td>
-                                        <td><?= $value->total_hari_telat ?></td>
-                                        <td><?= $value->total_hari_checkout_awal ?></td>
-                                        <td><?= $value->total_jam_lembur ?></td>
-                                        <td><?= $value->bayaran_harian ?></td>
-                                        <td><?= $value->bayaran_konsumsi_harian ?></td>
-                                        <td><?= $value->bayaran_transportasi_harian ?></td>
-                                        <td><?= $value->bayaran_lembur_perjam ?></td>
-                                        <td><?= $value->bayaran_penalti ?></td>
-                                        <td><?= $value->total_bayaran_harian?></td>
-                                        <td><?= $value->total_bayaran_konsumsi_harian ?></td>
-                                        <td><?= $value->total_bayaran_transportasi_harian ?></td>
-                                        <td><?= $value->total_bayaran_lembur_perjam ?></td>
-                                        <td><?= $value->total_bayaran_penalti ?></td>
-                                        <td><?= $value->total_bayaran ?></td>
-                                        <td><?= $value->tanggal_rekap ?></td>
+                                        <?php if ($value->gaji) { ?>
+                                            <td><?= $value->gaji->total_hari_masuk ?> hari</td>
+                                            <td>Rp. <?= number_format($value->gaji->bayaran_harian) ?></td>
+                                            <td>Rp. <?= number_format($value->gaji->bayaran_konsumsi_harian) ?></td>
+                                            <td>Rp. <?= number_format($value->gaji->bayaran_transportasi_harian) ?></td>
+                                            <td>Rp. <?= number_format($value->gaji->total_bayaran_harian)?></td>
+                                            <td>Rp. <?= number_format($value->gaji->total_bayaran_konsumsi_harian) ?></td>
+                                            <td>Rp. <?= number_format($value->gaji->total_bayaran_transportasi_harian) ?></td>
+                                            <td><b>Rp. <?= number_format($value->gaji->total_bayaran_harian + $value->gaji->total_bayaran_konsumsi_harian + $value->gaji->total_bayaran_transportasi_harian) ?></b></td>
+                                            <td><?= $value->gaji->total_jam_lembur ?> jam</td>
+                                            <td>Rp. <?= number_format($value->gaji->bayaran_lembur_perjam) ?></td>
+                                            <td><b>Rp. <?= number_format($value->gaji->total_bayaran_lembur_perjam) ?></b></td>
+                                            <td><?= $value->gaji->total_hari_telat ?> hari</td>
+                                            <td><?= $value->gaji->total_hari_checkout_awal ?> hari</td>
+                                            <td>Rp. <?= number_format($value->gaji->bayaran_penalti) ?></td>
+                                            <td><b>Rp. <?= number_format($value->gaji->total_bayaran_penalti) ?></b></td>
+                                            <td><b>Rp. <?= number_format($value->gaji->total_bayaran) ?></b></td>
+                                        <?php } else { ?>
+                                            <td colspan="16"></td>
+                                        <?php } ?>
                                     </tr>
 
                                 <?php $num++; } ?>
-                                <?= count($gajian) < 1 ? '<tr><td colspan="18" class="text-center">Tidak ada data</td></tr>' : '' ?>
                             </tbody>
                         </table>
+                    </form>
                     </div>
                     <!-- /.card -->
                 </div>
-                <div class="col-md-4 mt-3">
-                    <div class="form-group">
-                        <select class="form-control" id="karyawan_id" name="karyawan_id">
-                            <option value="">Pilih Karyawan:</option>
-                            <?php foreach ($karyawan as $key => $value) { ?>
-                                <option value="<?= $value->id_karyawan ?>" <?= $value->id_karyawan == $karyawan_id ? 'selected' : '' ?> ><?= $value->nama_karyawan ?></option>
-                            <?php } ?>
-                        </select>
-                        <?php echo form_error('karyawan_id', '<small class="text-danger">', '</small>'); ?>
-                    </div>
-                </div>
-                <div class="col-md-4 mt-3">
-                    <button class="btn btn-primary">Rekap Absen</button>
-                </div>
-                    </form>
                 <!--/.col (right) -->
             </div>
             <!-- /.row -->

@@ -59,22 +59,6 @@
                             </p>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="<?= base_url('AbsensiController') ?>" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Absensi
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="<?= base_url('GajiController') ?>" class="nav-link">
-                            <i class="nav-icon fas fa-tachometer-alt"></i>
-                            <p>
-                                Pembayaran Gaji
-                            </p>
-                        </a>
-                    </li>
                     <?php if ($_SESSION['role_id'] == 1) { ?>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -106,28 +90,46 @@
                                 </li>
                             </ul>
                         </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-friends"></i>
+                                <p>
+                                    Absensi Karyawan
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('AbsensiController') ?>" class="nav-link">
+                                        <p>Data Absensi</p>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('AbsensiController/importAbsensi') ?>" class="nav-link">
+                                        <p>Input Data Absensi</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                            <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-user-friends"></i>
+                                <p>
+                                    Pembayaran Gaji
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('GajiController') ?>" class="nav-link">
+                                        <p>Data Gaji</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                     <?php } ?>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-money-bill-wave"></i>
-                            <p>
-                                Transaksi
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_Rekap_Absen/data_rekap_absen') ?>" class="nav-link">
-                                    <p>Rekap Absen</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_Data_Gaji/data_gaji') ?>" class="nav-link">
-                                    <p>Data Gaji</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-paperclip"></i>
