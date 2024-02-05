@@ -11,6 +11,18 @@ class GajiController extends CI_Controller
         if (!$this->session->userdata('username')) {
             redirect('C_Auth');
         }
+        $this->settings = $this->db->get('pengaturan')->row();
+        if (!$this->settings) {
+            $this->settings = new stdClass();
+            $this->settings->jam_masuk = '08:00:00';
+            $this->settings->jam_keluar = '17:00:00';
+            $this->settings->menit_masuk_toleransi = '10';
+        }
+        $this->time_setting = array(
+            'jam_masuk' => date("H:i:s", strtotime($this->settings->menit_masuk_toleransi . ' minutes', strtotime($this->settings->jam_masuk))),
+            'jam_keluar' => $this->settings->jam_keluar,
+            'start_lembur' => date("H:i:s", strtotime('1 hour', strtotime($this->settings->jam_keluar))),
+        );
     }
 
     function index()
@@ -65,6 +77,10 @@ class GajiController extends CI_Controller
 
     function generateGaji($bulan, $tahun, $karyawan_id)
     {
+        $jam_masuk = $this->time_setting['jam_masuk'];
+        $jam_keluar = $this->time_setting['jam_keluar'];
+        $start_lembur = $this->time_setting['start_lembur'];
+
         return $this->db->query("
         
         SELECT
@@ -123,18 +139,18 @@ class GajiController extends CI_Controller
                             MAX(TIME_FORMAT( A.waktu_checkin, '%H:%i:%s' )) AS waktu_checkin,
                             ( SELECT TIME_FORMAT( waktu_checkout, '%H:%i:%s' ) FROM kehadiran WHERE waktu_checkin = MAX( A.waktu_checkin ) LIMIT 1 ) AS waktu_checkout,
                             CASE
-                                WHEN MAX(TIME_FORMAT( A.waktu_checkin, '%H:%i:%s' )) > '08:10:00'
+                                WHEN MAX(TIME_FORMAT( A.waktu_checkin, '%H:%i:%s' )) > '{$jam_masuk}'
                                 THEN 1
                                 ELSE 0 
                             END AS parameter_telat,
                             CASE
-                                WHEN MAX(TIME_FORMAT( A.waktu_checkout, '%H:%i:%s' )) < '17:00:00'
+                                WHEN MAX(TIME_FORMAT( A.waktu_checkout, '%H:%i:%s' )) < '{$jam_keluar}'
                                 THEN 1
                                 ELSE 0
                             END AS parameter_checkout_awal,
-                            CASE WHEN TIME( A.waktu_checkout ) < '18:00:00'
+                            CASE WHEN TIME( A.waktu_checkout ) < '{$start_lembur}'
                                 THEN 0
-                                ELSE TIME_TO_SEC( A.waktu_checkout ) DIV 3600 - TIME_TO_SEC( '18:00:00' ) DIV 3600 
+                                ELSE TIME_TO_SEC( A.waktu_checkout ) DIV 3600 - TIME_TO_SEC( '{$start_lembur}' ) DIV 3600 
                             END AS jumlah_jam_lembur 
                         FROM
                             kehadiran A
