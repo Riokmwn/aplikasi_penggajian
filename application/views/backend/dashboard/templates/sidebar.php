@@ -98,6 +98,13 @@
                                     </a>
                                 </li>
                             </ul>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="<?= base_url('PengaturanController') ?>" class="nav-link">
+                                        <p>Pengaturan</p>
+                                    </a>
+                                </li>
+                            </ul>
                         </li>
                     <?php } ?>
                     <li class="nav-item">
