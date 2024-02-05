@@ -18,6 +18,7 @@
                 <div class="col-md-12">
                     <form method="post">
                         <div class="row">
+                            <?php if ($_SESSION['role_id'] != 2) { ?>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <select class="form-control" id="karyawan_id" name="karyawan_id">
@@ -29,6 +30,7 @@
                                     <?php echo form_error('karyawan_id', '<small class="text-danger">', '</small>'); ?>
                                 </div>
                             </div>
+                            <?php } ?>  
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <select class="form-control" id="bulan" name="bulan">

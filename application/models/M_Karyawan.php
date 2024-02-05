@@ -5,10 +5,8 @@ class M_Karyawan extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('karyawan');
-        $this->db->join('jenis_kelamin', 'karyawan.jenis_kelamin_id = jenis_kelamin.id_jenis_kelamin');
-        $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
-        $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
-        $this->db->order_by('karyawan_nama', 'ASC');
+        $this->db->join('posisi', 'karyawan.posisi_id = posisi.id_posisi');
+        $this->db->order_by('nama_karyawan', 'ASC');
         $query = $this->db->get();
         return $query->result();
     }
@@ -36,7 +34,7 @@ class M_Karyawan extends CI_Model
     function search_nik_name_karyawan($search)
     {
         $this->db->join('jenis_kelamin', 'karyawan.jenis_kelamin_id = jenis_kelamin.id_jenis_kelamin');
-        $this->db->join('jabatan', 'karyawan.jabatan_id = jabatan.id_jabatan');
+        $this->db->join('posisi', 'karyawan.posisi_id = posisi.id_posisi');
         $this->db->join('status_karyawan', 'karyawan.status_karyawan_id = status_karyawan.id_status_karyawan');
         $this->db->like('nik_karyawan', $search);
         $this->db->or_like('karyawan_nama', $search);

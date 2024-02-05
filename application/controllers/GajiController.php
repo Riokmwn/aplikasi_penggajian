@@ -64,7 +64,12 @@ class GajiController extends CI_Controller
             }
         }
 
-        $data['karyawan'] = $this->db->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->order_by('nama_karyawan')->get('karyawan')->result();
+        $data['karyawan'] = $this->db->join('posisi', 'posisi.id_posisi = karyawan.posisi_id');
+        if ($_SESSION['role_id'] == 2){
+            $data['karyawan'] = $data['karyawan']->where('id_karyawan', $_SESSION['karyawan_id']);
+        }
+        
+        $data['karyawan'] = $data['karyawan']->order_by('nama_karyawan')->get('karyawan')->result();
         foreach ($data['karyawan'] as $key => $value) {
             $value->gaji = $this->db->get_where('rekap_gaji_karyawan', ['rekap_gaji_bulan' => $data['bulan'], 'rekap_gaji_tahun' => $data['tahun'], 'karyawan_id' => $value->id_karyawan])->row();
         }
@@ -168,5 +173,15 @@ class GajiController extends CI_Controller
         ")->row_array();
 
         redirect('GajiController');
+    }
+
+    function print($id_rekap_gaji_karyawan)
+    {
+        
+        $data['slip_gaji'] = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get_where('rekap_gaji_karyawan', ['id_rekap_gaji_karyawan' => $id_rekap_gaji_karyawan])->row();
+
+        $this->load->view('backend/dashboard/templates/header', $data);
+        $this->load->view('backend/content/gaji/print', $data);
+        $this->load->view('backend/dashboard/templates/footer');
     }
 }

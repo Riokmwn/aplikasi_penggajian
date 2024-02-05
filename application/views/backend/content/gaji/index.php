@@ -101,9 +101,16 @@
                                         <td><?= $tahun ?></td>
                                         <td>
                                             <?php if ($value->gaji) { ?>
-                                                <button class="w-100 btn btn-success btn-sm" disabled><?= $value->gaji->tanggal_rekap ?></button>
+                                                <?php if ($_SESSION['role_id'] != 2) { ?>
+                                                <button class="w-100 btn btn-success btn-sm mb-2" disabled><?= $value->gaji->tanggal_rekap ?></button><br>
+                                                <?php } ?>
+                                                    <a target="_blank" href="<?= base_url('GajiController/print/' . $value->gaji->id_rekap_gaji_karyawan) ?>" class="w-100 btn btn-dark btn-sm">Cetak</a>
                                             <?php } else { ?>
-                                                <button name="rekap" type="submit" class="w-100 btn btn-info btn-sm" value="<?= $value->id_karyawan ?>">Rekap</button>
+                                                <?php if ($_SESSION['role_id'] != 2) { ?>
+                                                    <button name="rekap" type="submit" class="w-100 btn btn-info btn-sm" value="<?= $value->id_karyawan ?>">Rekap</button>
+                                                <?php } else { ?>
+                                                    <button class="w-100 btn btn-success btn-sm" disabled>Belum ada data</button>
+                                                <?php } ?>
                                             <?php } ?>
                                         </td>
                                         <td><?= $value->nama_karyawan ?></td>

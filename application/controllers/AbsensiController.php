@@ -31,6 +31,9 @@ class AbsensiController extends CI_Controller
         $data['bulan'] = $_POST['bulan'] ?? date('m');
         $data['tahun'] = $_POST['tahun'] ?? date('Y');
         $data['karyawan_id'] = $_POST['karyawan_id'] ?? 0;
+        if ($_SESSION['role_id'] == 2) {
+            $data['karyawan_id'] = $_SESSION['karyawan_id'];
+        }
         $data['karyawan'] = $this->db->get('karyawan')->result();
         $data['absensi'] = $this->generateAbsensi($data['bulan'], $data['tahun'], $data['karyawan_id']);
 
@@ -119,8 +122,6 @@ class AbsensiController extends CI_Controller
                     }
                     $i++;
                 }   
-                
-                return true;
       
               } catch (Exception $e) {
                 die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)

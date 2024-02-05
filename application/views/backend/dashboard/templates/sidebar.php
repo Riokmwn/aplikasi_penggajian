@@ -90,6 +90,7 @@
                                 </li>
                             </ul>
                         </li>
+                    <?php } ?>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-user-friends"></i>
@@ -105,6 +106,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            <?php if ($_SESSION['role_id'] != 2) { ?>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
                                     <a href="<?= base_url('AbsensiController/importAbsensi') ?>" class="nav-link">
@@ -112,6 +114,7 @@
                                     </a>
                                 </li>
                             </ul>
+                            <?php } ?>
                         </li>
                             <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -129,28 +132,6 @@
                                 </li>
                             </ul>
                         </li>
-                    <?php } ?>
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-paperclip"></i>
-                            <p>
-                                Laporan
-                                <i class="fas fa-angle-left right"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_Laporan_Gaji/data_laporan_gaji') ?>" class="nav-link">
-                                    <p>Laporan Gaji</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="<?= base_url('C_Slip_Gaji/data_slip_gaji') ?>" class="nav-link">
-                                    <p>Slip Gaji</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-cog"></i>

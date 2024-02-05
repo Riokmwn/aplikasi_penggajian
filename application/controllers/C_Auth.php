@@ -42,7 +42,8 @@ class C_Auth extends CI_Controller
 					$data = array(
 						'id_users' => $users->id_users,
 						'username' => $users->username,
-						'role_id' => $users->role_id
+						'role_id' => $users->role_id,
+						'karyawan_id' => $users->karyawan_id
 					);
 					$this->session->set_userdata($data);
 
