@@ -17,6 +17,16 @@ class PengaturanController extends CI_Controller
     {
         $data['judul'] = 'Pengaturan';
         $data['pengaturan'] = $this->db->get('pengaturan')->result();
+        
+        while (count($data['pengaturan']) < 1) {
+            $this->db->insert('pengaturan', [
+                'id_pengaturan' => 1,
+                'jam_masuk' => '08:00:00',
+                'jam_keluar' => '17:00:00',
+                'menit_masuk_toleransi' => '10'
+            ]);
+            $data['pengaturan'] = $this->db->get('pengaturan')->result();
+        }
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
