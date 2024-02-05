@@ -67,6 +67,14 @@
                             </p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="<?= base_url('GajiController') ?>" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Pembayaran Gaji
+                            </p>
+                        </a>
+                    </li>
                     <?php if ($_SESSION['role_id'] == 1) { ?>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
