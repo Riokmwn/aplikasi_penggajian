@@ -22,7 +22,32 @@ class GajiController extends CI_Controller
 
         if (isset($_POST['rekap'])) {
             $data_rekap = $this->generateGaji($data['bulan'], $data['tahun'], $_POST['rekap']);
-            if ($data_rekap['karyawan_id']) {
+            if (!$data_rekap['karyawan_id']) {
+                $get_karyawan = $this->db->get_where('karyawan', ['id_karyawan' => $_POST['rekap']])->row();
+                $data_rekap = [
+                    'karyawan_id' => $get_karyawan->id_karyawan,
+                    'posisi_id' => $get_karyawan->posisi_id,
+                    'rekap_gaji_bulan' => $data['bulan'],
+                    'rekap_gaji_tahun' => $data['tahun'],
+                    'total_hari_masuk' => 0,
+                    'total_hari_telat' => 0,
+                    'total_hari_checkout_awal' => 0,
+                    'total_jam_lembur' => 0,
+                    'bayaran_harian' => 0,
+                    'bayaran_konsumsi_harian' => 0,
+                    'bayaran_transportasi_harian' => 0,
+                    'bayaran_lembur_perjam' => 0,
+                    'bayaran_penalti' => 0,
+                    'total_bayaran_harian' => 0,
+                    'total_bayaran_konsumsi_harian' => 0,
+                    'total_bayaran_transportasi_harian' => 0,
+                    'total_bayaran_lembur_perjam' => 0,
+                    'total_bayaran_penalti' => 0,
+                    'total_bayaran' => 0,
+                    'tanggal_rekap' => date('Y-m-d H:i:s'),
+                ];
+            }
+            if (!$this->db->get_where('rekap_gaji_karyawan', ['rekap_gaji_bulan' => $data['bulan'], 'rekap_gaji_tahun' => $data['tahun'], 'karyawan_id' => $_POST['rekap']])->row()) {
                 $this->db->insert('rekap_gaji_karyawan', $data_rekap);
             }
         }
