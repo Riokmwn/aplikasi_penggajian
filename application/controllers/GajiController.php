@@ -185,4 +185,58 @@ class GajiController extends CI_Controller
         $this->load->view('backend/content/gaji/print', $data);
         $this->load->view('backend/dashboard/templates/footer');
     }
+
+    function sendEmail()
+    {
+        $count = 0;
+        if ($_POST) {
+            foreach ($_POST['check'] as $key => $value) {
+
+                $rekap_gaji_karyawan = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('users', 'karyawan.id_karyawan = users.karyawan_id')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get_where('rekap_gaji_karyawan', ['id_rekap_gaji_karyawan' => $value])->row();
+    
+                echo '<pre>';
+                var_dump($rekap_gaji_karyawan);
+                echo '</pre>';
+                die();
+    
+                $selectedMonth = $rekap_gaji_karyawan->rekap_gaji_bulan;
+                $selectedYear = $rekap_gaji_karyawan->rekap_gaji_bulan;
+                $link = '<a href="'.base_url('GajiController/print/' . $value).'"></a>';
+                $subject = 'Slip Gaji';
+                $message = 'Yth. Bpk/Ibu. Berikut kami kirimkan slip gaji untuk bulan '.$selectedMonth.' tahun '. $selectedYear.'. Slip gaji dapat diunduh di link '.$link.' berikut. Terimakasih';
+                $to = $rekap_gaji_karyawan->email;
+    
+                $config['gmail'] = [
+                    'mailtype'  => 'html',
+                    'charset'   => 'utf-8',
+                    'protocol'  => 'smtp',
+                    'smtp_name' => 'PT. ANEKA HITTACINDO PRATAMA',
+                    'smtp_host' => 'smtp.gmail.com',
+                    'smtp_user' => 'studytraceriti@gmail.com',  // Email gmail
+                    'smtp_pass'   => 'qwwjiekubtopueyh',  // Password gmail
+                    'smtp_crypto' => 'ssl',
+                    'smtp_port'   => 465,
+                    'crlf'    => "\r\n",
+                    'newline' => "\r\n"
+                ];
+            
+                $configEmail = $config['gmail'];
+                get_instance()->load->library('email', $configEmail);
+                get_instance()->email->from($configEmail['smtp_user'], $configEmail['smtp_name']);
+                get_instance()->email->to($to);
+                get_instance()->email->subject($subject);
+                get_instance()->email->message($message);
+    
+                if (get_instance()->email->send()) {
+                    $count++;
+                } 
+            }
+            if ($count < 1) {
+                $this->session->set_flashdata('msg', 'Tidak ada email yg dikirim!');
+            }else{
+                $this->session->set_flashdata('msg', 'Berhasil mengirim ke ' . $count . 'email!');
+            }
+        }
+        redirect('GajiController');
+    }
 }
