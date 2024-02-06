@@ -1,6 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
 class GajiController extends CI_Controller
 {
     function __construct()
@@ -8,9 +7,9 @@ class GajiController extends CI_Controller
         parent::__construct();
         $this->load->model('M_User');
         $this->load->library(array());
-        if (!$this->session->userdata('username')) {
-            redirect('C_Auth');
-        }
+        // if (!$this->session->userdata('username')) {
+        //     redirect('C_Auth');
+        // }
         $this->settings = $this->db->get('pengaturan')->row();
         if (!$this->settings) {
             $this->settings = new stdClass();
@@ -23,6 +22,7 @@ class GajiController extends CI_Controller
             'jam_keluar' => $this->settings->jam_keluar,
             'start_lembur' => date("H:i:s", strtotime('1 hour', strtotime($this->settings->jam_keluar))),
         );
+        require 'PHPMailerAutoload.php';
     }
 
     function index()
@@ -186,57 +186,88 @@ class GajiController extends CI_Controller
         $this->load->view('backend/dashboard/templates/footer');
     }
 
-    function sendEmail()
-    {
-        $count = 0;
-        if ($_POST) {
-            foreach ($_POST['check'] as $key => $value) {
+    // function sendEmail()
+    // {
+    //     $count = 0;
+    //     if ($_POST) {
+    //         foreach ($_POST['check'] as $key => $value) {
 
-                $rekap_gaji_karyawan = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('users', 'karyawan.id_karyawan = users.karyawan_id')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get_where('rekap_gaji_karyawan', ['id_rekap_gaji_karyawan' => $value])->row();
+    //             $rekap_gaji_karyawan = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('users', 'karyawan.id_karyawan = users.karyawan_id')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get_where('rekap_gaji_karyawan', ['id_rekap_gaji_karyawan' => $value])->row();
     
-                echo '<pre>';
-                var_dump($rekap_gaji_karyawan);
-                echo '</pre>';
-                die();
+    //             echo '<pre>';
+    //             var_dump($rekap_gaji_karyawan);
+    //             echo '</pre>';
+    //             die();
     
-                $selectedMonth = $rekap_gaji_karyawan->rekap_gaji_bulan;
-                $selectedYear = $rekap_gaji_karyawan->rekap_gaji_bulan;
-                $link = '<a href="'.base_url('GajiController/print/' . $value).'"></a>';
-                $subject = 'Slip Gaji';
-                $message = 'Yth. Bpk/Ibu. Berikut kami kirimkan slip gaji untuk bulan '.$selectedMonth.' tahun '. $selectedYear.'. Slip gaji dapat diunduh di link '.$link.' berikut. Terimakasih';
-                $to = $rekap_gaji_karyawan->email;
+    //             $selectedMonth = $rekap_gaji_karyawan->rekap_gaji_bulan;
+    //             $selectedYear = $rekap_gaji_karyawan->rekap_gaji_bulan;
+    //             $link = '<a href="'.base_url('GajiController/print/' . $value).'"></a>';
+    //             $subject = 'Slip Gaji';
+    //             $message = 'Yth. Bpk/Ibu. Berikut kami kirimkan slip gaji untuk bulan '.$selectedMonth.' tahun '. $selectedYear.'. Slip gaji dapat diunduh di link '.$link.' berikut. Terimakasih';
+    //             $to = $rekap_gaji_karyawan->email;
     
-                $config['gmail'] = [
-                    'mailtype'  => 'html',
-                    'charset'   => 'utf-8',
-                    'protocol'  => 'smtp',
-                    'smtp_name' => 'PT. ANEKA HITTACINDO PRATAMA',
-                    'smtp_host' => 'smtp.gmail.com',
-                    'smtp_user' => 'studytraceriti@gmail.com',  // Email gmail
-                    'smtp_pass'   => 'qwwjiekubtopueyh',  // Password gmail
-                    'smtp_crypto' => 'ssl',
-                    'smtp_port'   => 465,
-                    'crlf'    => "\r\n",
-                    'newline' => "\r\n"
-                ];
+    //             $config['gmail'] = [
+    //                 'mailtype'  => 'html',
+    //                 'charset'   => 'utf-8',
+    //                 'protocol'  => 'smtp',
+    //                 'smtp_name' => 'PT. ANEKA HITTACINDO PRATAMA',
+    //                 'smtp_host' => 'smtp.gmail.com',
+    //                 'smtp_user' => 'studytraceriti@gmail.com',  // Email gmail
+    //                 'smtp_pass'   => 'qwwjiekubtopueyh',  // Password gmail
+    //                 'smtp_crypto' => 'ssl',
+    //                 'smtp_port'   => 465,
+    //                 'crlf'    => "\r\n",
+    //                 'newline' => "\r\n"
+    //             ];
             
-                $configEmail = $config['gmail'];
-                get_instance()->load->library('email', $configEmail);
-                get_instance()->email->from($configEmail['smtp_user'], $configEmail['smtp_name']);
-                get_instance()->email->to($to);
-                get_instance()->email->subject($subject);
-                get_instance()->email->message($message);
+    //             $configEmail = $config['gmail'];
+    //             get_instance()->load->library('email', $configEmail);
+    //             get_instance()->email->from($configEmail['smtp_user'], $configEmail['smtp_name']);
+    //             get_instance()->email->to($to);
+    //             get_instance()->email->subject($subject);
+    //             get_instance()->email->message($message);
     
-                if (get_instance()->email->send()) {
-                    $count++;
-                } 
-            }
-            if ($count < 1) {
-                $this->session->set_flashdata('msg', 'Tidak ada email yg dikirim!');
-            }else{
-                $this->session->set_flashdata('msg', 'Berhasil mengirim ke ' . $count . 'email!');
-            }
+    //             if (get_instance()->email->send()) {
+    //                 $count++;
+    //             } 
+    //         }
+    //         if ($count < 1) {
+    //             $this->session->set_flashdata('msg', 'Tidak ada email yg dikirim!');
+    //         }else{
+    //             $this->session->set_flashdata('msg', 'Berhasil mengirim ke ' . $count . 'email!');
+    //         }
+    //     }
+    //     redirect('GajiController');
+    // }
+
+    public function sendEmail() {
+        $mail = new PHPMailer(true); // true enables exceptions
+
+        try {
+            //Server settings
+            $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.example.com';  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'your@example.com';                 // SMTP username
+            $mail->Password = 'yourpassword';                           // SMTP password
+            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 587;                                    // TCP port to connect to
+
+            //Recipients
+            $mail->setFrom('from@example.com', 'Mailer');
+            $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+
+            //Content
+            $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->Subject = 'Here is the subject';
+            $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+            $mail->send();
+            echo 'Message has been sent';
+        } catch (Exception $e) {
+            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
         }
-        redirect('GajiController');
     }
 }
