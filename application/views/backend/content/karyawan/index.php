@@ -68,10 +68,15 @@
                             <table class="table table-bordered table-striped text-center">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
+                                        <th>No.</th>
+                                        <th>No. Karyawan</th>
                                         <th>Karyawan</th>
+                                        <th>Username</th>
                                         <th>Email</th>
+                                        <th>Jenis Kelamin</th>
                                         <th>Posisi</th>
+                                        <th>Alamat</th>
+                                        <th>No. HP</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -81,9 +86,14 @@
                                         foreach ($Tingkat as $j) { ?>
                                     <tr>
                                         <td><?= $no++; ?></td>
+                                        <td><?= $j->id_karyawan; ?></td>
                                         <td><?= $j->nama_karyawan; ?></td>
+                                        <td><?= $j->username; ?></td>
                                         <td><?= $j->email; ?></td>
+                                        <td><?= $j->jenis_kelamin; ?></td>
                                         <td><?= $j->nama_posisi; ?></td>
+                                        <td><?= $j->alamat; ?></td>
+                                        <td><?= $j->no_hp; ?></td>
                                         <td>
                                             <a href="<?= base_url('KaryawanController/formPage/edit/' . $j->id_karyawan) ?>"
                                                 class="btn btn-sm btn-warning">Ubah</a>

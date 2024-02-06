@@ -22,7 +22,8 @@ class GajiController extends CI_Controller
             'jam_keluar' => $this->settings->jam_keluar,
             'start_lembur' => date("H:i:s", strtotime('1 hour', strtotime($this->settings->jam_keluar))),
         );
-        require 'PHPMailerAutoload.php';
+        // require '.././PHPMailerAutoload.php';
+        require FCPATH . '/application/libraries/PHPMailer/PHPMailerAutoload.php';
     }
 
     function index()
@@ -31,6 +32,11 @@ class GajiController extends CI_Controller
         $data['judul'] = 'Pembayaran Gaji';
         $data['bulan'] = $_POST['bulan'] ?? date('m');
         $data['tahun'] = $_POST['tahun'] ?? date('Y');
+        
+        if (isset($_POST['sendEmail'])) {
+            $this->sendEmail();
+            exit();
+        }
 
         if (isset($_POST['rekap'])) {
             $data_rekap = $this->generateGaji($data['bulan'], $data['tahun'], $_POST['rekap']);
@@ -176,9 +182,9 @@ class GajiController extends CI_Controller
         redirect('GajiController');
     }
 
-    function print($id_rekap_gaji_karyawan)
+    function cetak($id_rekap_gaji_karyawan)
     {
-        
+        $data['judul'] = 'Print';
         $data['slip_gaji'] = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get_where('rekap_gaji_karyawan', ['id_rekap_gaji_karyawan' => $id_rekap_gaji_karyawan])->row();
 
         $this->load->view('backend/dashboard/templates/header', $data);
@@ -186,88 +192,56 @@ class GajiController extends CI_Controller
         $this->load->view('backend/dashboard/templates/footer');
     }
 
-    // function sendEmail()
-    // {
-    //     $count = 0;
-    //     if ($_POST) {
-    //         foreach ($_POST['check'] as $key => $value) {
-
-    //             $rekap_gaji_karyawan = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('users', 'karyawan.id_karyawan = users.karyawan_id')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get_where('rekap_gaji_karyawan', ['id_rekap_gaji_karyawan' => $value])->row();
-    
-    //             echo '<pre>';
-    //             var_dump($rekap_gaji_karyawan);
-    //             echo '</pre>';
-    //             die();
-    
-    //             $selectedMonth = $rekap_gaji_karyawan->rekap_gaji_bulan;
-    //             $selectedYear = $rekap_gaji_karyawan->rekap_gaji_bulan;
-    //             $link = '<a href="'.base_url('GajiController/print/' . $value).'"></a>';
-    //             $subject = 'Slip Gaji';
-    //             $message = 'Yth. Bpk/Ibu. Berikut kami kirimkan slip gaji untuk bulan '.$selectedMonth.' tahun '. $selectedYear.'. Slip gaji dapat diunduh di link '.$link.' berikut. Terimakasih';
-    //             $to = $rekap_gaji_karyawan->email;
-    
-    //             $config['gmail'] = [
-    //                 'mailtype'  => 'html',
-    //                 'charset'   => 'utf-8',
-    //                 'protocol'  => 'smtp',
-    //                 'smtp_name' => 'PT. ANEKA HITTACINDO PRATAMA',
-    //                 'smtp_host' => 'smtp.gmail.com',
-    //                 'smtp_user' => 'studytraceriti@gmail.com',  // Email gmail
-    //                 'smtp_pass'   => 'qwwjiekubtopueyh',  // Password gmail
-    //                 'smtp_crypto' => 'ssl',
-    //                 'smtp_port'   => 465,
-    //                 'crlf'    => "\r\n",
-    //                 'newline' => "\r\n"
-    //             ];
-            
-    //             $configEmail = $config['gmail'];
-    //             get_instance()->load->library('email', $configEmail);
-    //             get_instance()->email->from($configEmail['smtp_user'], $configEmail['smtp_name']);
-    //             get_instance()->email->to($to);
-    //             get_instance()->email->subject($subject);
-    //             get_instance()->email->message($message);
-    
-    //             if (get_instance()->email->send()) {
-    //                 $count++;
-    //             } 
-    //         }
-    //         if ($count < 1) {
-    //             $this->session->set_flashdata('msg', 'Tidak ada email yg dikirim!');
-    //         }else{
-    //             $this->session->set_flashdata('msg', 'Berhasil mengirim ke ' . $count . 'email!');
-    //         }
-    //     }
-    //     redirect('GajiController');
-    // }
-
     public function sendEmail() {
-        $mail = new PHPMailer(true); // true enables exceptions
+        $month = array(
+            '01' => 'Januari' , '02' => 'Februari', '03' => 'Maret' , '04' => 'April' , '05' => 'Mei' , '06' => 'Juni' , '07' => 'Juli' , '08' => 'Agustus' , '09' => 'September' , '10' => 'Oktober' ,'11' => 'November' ,'12' => 'Desember' ,
+        );
 
+        $mail = new PHPMailer(true); // true enables exceptions
         try {
+            ob_start();
             //Server settings
-            $mail->SMTPDebug = 2;                                 // Enable verbose debug output
+            $mail->SMTPDebug = 0;                                 // Enable verbose debug output
             $mail->isSMTP();                                      // Set mailer to use SMTP
-            $mail->Host = 'smtp.example.com';  // Specify main and backup SMTP servers
+            $mail->Host = 'mail.mutsanna.xyz';  // Specify main and backup SMTP servers
             $mail->SMTPAuth = true;                               // Enable SMTP authentication
-            $mail->Username = 'your@example.com';                 // SMTP username
-            $mail->Password = 'yourpassword';                           // SMTP password
-            $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
-            $mail->Port = 587;                                    // TCP port to connect to
+            $mail->Username = 'hitacindopenggajian@mutsanna.xyz';                 // SMTP username
+            $mail->Password = 'Q&9vvAG7jpZ?';                           // SMTP password
+            $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 465;                                    // TCP port to connect to
 
             //Recipients
-            $mail->setFrom('from@example.com', 'Mailer');
-            $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+            $mail->setFrom('hitacindopenggajian@mutsanna.xyz', 'PT Aneka Hitachindo Pratama');
 
-            //Content
-            $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = 'Here is the subject';
-            $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-            $mail->send();
-            echo 'Message has been sent';
+            if ($_POST) {
+                foreach ($_POST['check'] as $key => $value) {
+                    $rekap_gaji_karyawan = $this->db->join('karyawan', 'karyawan.id_karyawan = rekap_gaji_karyawan.karyawan_id')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->join('users', 'users.karyawan_id = karyawan.id_karyawan')->get_where('rekap_gaji_karyawan', ['id_rekap_gaji_karyawan' => $value])->row();
+    
+                    if($rekap_gaji_karyawan){   // Add a recipient
+                        $link = '<a href="'.base_url('GajiController/cetak/' . $rekap_gaji_karyawan->id_rekap_gaji_karyawan).'">link</a>';
+                        $body = 'Yth. Bpk/Ibu. '.$rekap_gaji_karyawan->nama_karyawan.',<br> Berikut kami kirimkan slip gaji untuk bulan '.$month[$rekap_gaji_karyawan->rekap_gaji_bulan].' tahun '. $rekap_gaji_karyawan->rekap_gaji_tahun.'. Slip gaji dapat diunduh di '.$link.' berikut. Terimakasih';
+                        $mail->clearAddresses();
+                        $mail->addAddress($rekap_gaji_karyawan->email, $rekap_gaji_karyawan->nama_karyawan);  
+                        
+                        //Content
+                        $mail->isHTML(true);                                  // Set email format to HTML
+                        $mail->Subject = 'Slip Gaji';
+                        $mail->Body    = $body;
+                        $mail->AltBody = strip_tags($body);
+                        
+                        $mail->send();
+                    }
+                }
+            }
+            
         } catch (Exception $e) {
-            echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+            // echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+            // die();
         }
+        ob_end_flush();
+                
+        $this->session->set_flashdata('msg', 'Berhasil mengirim email');
+        redirect('GajiController');
     }
+
 }

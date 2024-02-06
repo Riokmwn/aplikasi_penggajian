@@ -26,6 +26,13 @@
                         <form method="post">
                             <div class="card-body">
                                 <div class="form-group">
+                                    <label for="id_karyawan">Nomer Karyawan:</label>
+                                    <input <?= $method=='edit' ? 'readonly' : '' ?> type="number" class="form-control" id="id_karyawan" placeholder="Nomer Karyawan"
+                                        name="id_karyawan" value="<?php echo $karyawan->id_karyawan ?? NULL ?>">
+                                    <?php echo form_error('id_karyawan', '<small class="text-danger">', '</small>'); ?>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="nama_karyawan">Nama Karyawan:</label>
                                     <input type="text" class="form-control" id="nama_karyawan" placeholder="Nama Karyawan"
                                         name="nama_karyawan" value="<?php echo $karyawan->nama_karyawan ?? NULL ?>">
@@ -52,8 +59,35 @@
                                     </select>
                                     <?php echo form_error('posisi_id', '<small class="text-danger">', '</small>'); ?>
                                 </div>
-                                
 
+                                <div class="form-group">
+                                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                                    <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
+                                        <option value="">Pilih Jenis Kelamin</option>
+                                        <option value="L"
+                                            <?php echo (isset($karyawan->jenis_kelamin) && $karyawan->jenis_kelamin == 'L') ? 'selected' : '' ?>>
+                                            Laki-laki
+                                        </option>
+                                        <option value="P"
+                                            <?php echo (isset($karyawan->jenis_kelamin) && $karyawan->jenis_kelamin == 'P') ? 'selected' : '' ?>>
+                                            Perempuan
+                                        </option>
+                                    </select>
+                                    <?php echo form_error('jenis_kelamin', '<small class="text-danger">', '</small>'); ?>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="alamat">Alamat:</label>
+                                    <textarea id="alamat" name="alamat" class="form-control" cols="30" rows="10"><?php echo $karyawan->alamat ?? NULL ?></textarea>
+                                    <?php echo form_error('alamat', '<small class="text-danger">', '</small>'); ?>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="no_hp">No. HP:</label>
+                                    <input type="text" class="form-control" id="no_hp" placeholder="No. HP"
+                                        name="no_hp" value="<?php echo $karyawan->no_hp ?? NULL ?>">
+                                    <?php echo form_error('no_hp', '<small class="text-danger">', '</small>'); ?>
+                                </div>
                                 
                             </div>
                             <!-- /.card-body -->

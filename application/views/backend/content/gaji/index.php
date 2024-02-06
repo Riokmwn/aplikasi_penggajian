@@ -61,11 +61,10 @@
                                 <button class="btn btn-primary">Submit</button>
                             </div>
                         </div>
-                    </form>
+                    <!-- </form> -->
                 </div>
                 <div class="col-md-12">
                     <div class="card">
-                        <form action="<?= base_url('GajiController/sendEmail') ?>" method="POST">
                             <table class="table table-bordered table-responsive table-striped text-center">
                                 <thead>
                                     <tr>
@@ -93,11 +92,11 @@
                                         <th rowspan="2">Total</th>
                                     </tr>
                                     <tr>
-                                        <th>Pokok Harian</th>
+                                        <th>Honor Harian</th>
                                         <th>Konsumsi</th>
                                         <th>Transportasi</th>
 
-                                        <th>Pokok Harian</th>
+                                        <th>Honor Harian</th>
                                         <th>Konsumsi</th>
                                         <th>Transportasi</th>
                                         <th>Total</th>
@@ -118,12 +117,14 @@
                                             <td><?= $num ?></td>
                                             <?php if ($_SESSION['role_id'] != 2) { ?>
                                             <td>
+                                                <?php if (isset($value->gaji->id_rekap_gaji_karyawan)) { ?>
                                                 <div class="form-check">
                                                     <input class="form-check-input check-here" type="checkbox" value="<?= $value->gaji->id_rekap_gaji_karyawan ?>" name="check[]">
                                                     <label class="form-check-label" for="flexCheckDefault">
                                                         
                                                     </label>
                                                 </div>
+                                                <?php }?>
                                             </td>
                                             <?php } ?>
                                             <td><?= $month[$bulan] ?></td>
@@ -133,7 +134,7 @@
                                                     <?php if ($_SESSION['role_id'] != 2) { ?>
                                                     <button class="w-100 btn btn-success btn-sm mb-2" disabled><?= $value->gaji->tanggal_rekap ?></button><br>
                                                     <?php } ?>
-                                                        <a target="_blank" href="<?= base_url('GajiController/print/' . $value->gaji->id_rekap_gaji_karyawan) ?>" class="w-100 btn btn-dark btn-sm">Cetak</a>
+                                                        <a target="_blank" href="<?= base_url('GajiController/cetak/' . $value->gaji->id_rekap_gaji_karyawan) ?>" class="w-100 btn btn-dark btn-sm">Cetak</a>
                                                 <?php } else { ?>
                                                     <?php if ($_SESSION['role_id'] != 2) { ?>
                                                         <button name="rekap" type="submit" class="w-100 btn btn-info btn-sm" value="<?= $value->id_karyawan ?>">Rekap</button>
@@ -169,9 +170,11 @@
                                     <?php $num++; } ?>
                                 </tbody>
                             </table>
+                            <?php if ($_SESSION['role_id'] != 2) { ?>
                             <div class="col-md-3 p-3">
-                                <button type="submit" class="btn btn-success">Kirim Email</button>
+                                <button type="submit" name="sendEmail" value="sendEmail" class="btn btn-success">Kirim Email</button>
                             </div>
+                            <?php } ?>
                         </form>
                     </div>
                     <!-- /.card -->

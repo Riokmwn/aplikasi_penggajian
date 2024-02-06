@@ -33,14 +33,21 @@ class KaryawanController extends CI_Controller
         $data['method'] = $method;
 
         if ($_POST) {
+            $this->form_validation->set_rules('id_karyawan', 'id_karyawan', 'required|trim');
             $this->form_validation->set_rules('nama_karyawan', 'nama_karyawan', 'required|trim');
+            $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required|trim');
+            $this->form_validation->set_rules('alamat', 'alamat', 'required|trim');
             $this->form_validation->set_rules('posisi_id', 'posisi_id', 'required|trim');
 
             if ($this->form_validation->run() == TRUE) {
                 
                 $data = array(
+                    'id_karyawan' => $this->input->post('id_karyawan'),
                     'nama_karyawan' => $this->input->post('nama_karyawan'),
+                    'jenis_kelamin' => $this->input->post('jenis_kelamin'),
+                    'alamat' => $this->input->post('alamat'),
                     'posisi_id' => $this->input->post('posisi_id'),
+                    'no_hp' => $this->input->post('no_hp'),
                 );                
 
                 $data_user = array(
@@ -55,7 +62,7 @@ class KaryawanController extends CI_Controller
                     $this->form_validation->set_rules('email', 'email', 'required|trim|is_unique[users.email]');
                     if ($this->form_validation->run() == TRUE) {
                         $this->db->insert('karyawan', $data);
-                        $data_user['karyawan_id'] = $this->db->insert_id();
+                        $data_user['karyawan_id'] = $this->input->post('id_karyawan');
                         $this->db->insert('users', $data_user);
                     }
                 }else if ($method == 'edit') {
