@@ -55,7 +55,7 @@ class PosisiController extends CI_Controller
                 }else if ($method == 'edit') {
                     $this->db->where('id_posisi', $id_posisi)->update('posisi', $data);
                 }
-                
+                $this->session->set_flashdata('msg', 'Berhasil');
                 redirect('PosisiController');
             }
         }
@@ -69,6 +69,7 @@ class PosisiController extends CI_Controller
     function delete($id_posisi)
     {
         $this->db->where('id_posisi', $id_posisi)->delete('posisi');
+        $this->session->set_flashdata('msg', 'Berhasil');
         redirect('PosisiController');
     }
 }

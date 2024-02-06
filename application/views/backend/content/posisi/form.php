@@ -65,8 +65,8 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <label for="bayaran_penalti">Bayaran Penalti</label>
-                                    <input type="text" class="form-control" id="bayaran_penalti" placeholder="Bayaran Penalti"
+                                    <label for="bayaran_penalti">Potongan Penalti</label>
+                                    <input type="text" class="form-control" id="bayaran_penalti" placeholder="Potongan Penalti"
                                         name="bayaran_penalti" onkeyup="formatNumber(this)"
                                         value="<?php echo number_format($posisi->bayaran_penalti ?? 0) ?>">
                                     <?php echo form_error('bayaran_penalti', '<small class="text-danger">', '</small>'); ?>
@@ -78,7 +78,7 @@
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <button id="back-button" data-url="<?= base_url('Nama Posisi/data_posisi') ?>"
+                                <button id="back-button" data-url="<?= base_url('PosisiController') ?>"
                                     class="btn btn-secondary">Kembali</button>
                             </div>
                         </form>

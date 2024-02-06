@@ -15,6 +15,13 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <?php if($this->session->flashdata('msg')){ ?>
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert">
+                        <?php echo $this->session->flashdata('msg'); ?>
+                    </div>
+                </div>
+                <?php } ?>
                 <div class="col-md-12">
                     <form method="post">
                         <div class="row">
@@ -69,6 +76,24 @@
                         </div>
                     </form>
                 </div>
+                <?php if ($this_karyawan) { ?>
+                    <div class="col-md-3 mt-3">
+                        <table class="table">
+                            <tr>
+                                <td>Nama Karyawan</td><td>: <?= $this_karyawan->nama_karyawan ?></td>
+                            </tr>
+                            <tr>
+                                <td>Posisi</td><td>: <?= $this_karyawan->nama_posisi ?></td>
+                            </tr>
+                            <tr>
+                                <td>Bulan</td><td>: <?= $month[$bulan] ?></td>
+                            </tr>
+                            <tr>
+                                <td>Tahun</td><td>: <?= $tahun ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                <?php } ?>
                 <div class="col-md-12">
                     <div class="card">
                         <table class="table table-bordered table-striped text-center">

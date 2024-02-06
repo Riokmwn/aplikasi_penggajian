@@ -16,6 +16,13 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <?php if($this->session->flashdata('msg')){ ?>
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert">
+                        <?php echo $this->session->flashdata('msg'); ?>
+                    </div>
+                </div>
+                <?php } ?>
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">

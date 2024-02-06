@@ -61,6 +61,7 @@ class GajiController extends CI_Controller
             }
             if (!$this->db->get_where('rekap_gaji_karyawan', ['rekap_gaji_bulan' => $data['bulan'], 'rekap_gaji_tahun' => $data['tahun'], 'karyawan_id' => $_POST['rekap']])->row()) {
                 $this->db->insert('rekap_gaji_karyawan', $data_rekap);
+                $this->session->set_flashdata('msg', 'Berhasil');
             }
         }
 

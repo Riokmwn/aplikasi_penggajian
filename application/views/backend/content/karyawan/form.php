@@ -33,6 +33,13 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="email">Email:</label>
+                                    <input type="email" class="form-control" id="email" placeholder="Email"
+                                        name="email" value="<?php echo $karyawan->email ?? NULL ?>">
+                                    <?php echo form_error('email', '<small class="text-danger">', '</small>'); ?>
+                                </div>
+
+                                <div class="form-group">
                                     <label for="posisi_id">Posisi</label>
                                     <select class="form-control" id="posisi_id" name="posisi_id">
                                         <option value="">Pilih Posisi</option>
@@ -52,7 +59,7 @@
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <button id="back-button" data-url="<?= base_url('Nama Karyawan/data_karyawan') ?>"
+                                <button id="back-button" data-url="<?= base_url('KaryawanController') ?>"
                                     class="btn btn-secondary">Kembali</button>
                             </div>
                         </form>

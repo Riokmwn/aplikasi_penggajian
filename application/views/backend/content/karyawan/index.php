@@ -31,6 +31,13 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
+                <?php if($this->session->flashdata('msg')){ ?>
+                <div class="col-md-12">
+                    <div class="alert alert-success" role="alert">
+                        <?php echo $this->session->flashdata('msg'); ?>
+                    </div>
+                </div>
+                <?php } ?>
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
@@ -63,6 +70,7 @@
                                     <tr>
                                         <th>No</th>
                                         <th>Karyawan</th>
+                                        <th>Email</th>
                                         <th>Posisi</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -74,6 +82,7 @@
                                     <tr>
                                         <td><?= $no++; ?></td>
                                         <td><?= $j->nama_karyawan; ?></td>
+                                        <td><?= $j->email; ?></td>
                                         <td><?= $j->nama_posisi; ?></td>
                                         <td>
                                             <a href="<?= base_url('KaryawanController/formPage/edit/' . $j->id_karyawan) ?>"

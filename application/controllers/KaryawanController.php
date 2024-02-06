@@ -17,7 +17,7 @@ class KaryawanController extends CI_Controller
     {
         $search = $this->input->get('search') ?? '';
         $data['judul'] = 'Karyawan';
-        $data['karyawan'] = $this->db->like('nama_karyawan', $search)->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get('karyawan')->result();
+        $data['karyawan'] = $this->db->like('nama_karyawan', $search)->join('users', 'users.karyawan_id = karyawan.id_karyawan')->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get('karyawan')->result();
 
         $this->load->view('backend/dashboard/templates/header', $data);
         $this->load->view('backend/dashboard/templates/sidebar');
@@ -28,7 +28,7 @@ class KaryawanController extends CI_Controller
     function formPage($method, $id_karyawan = '')
     {
         $data['judul'] = 'Form Karyawan - ' . $method;
-        $data['karyawan'] = $this->db->where('id_karyawan', $id_karyawan)->get('karyawan')->row() ?? new stdClass();
+        $data['karyawan'] = $this->db->join('users', 'users.karyawan_id = karyawan.id_karyawan')->where('id_karyawan', $id_karyawan)->get('karyawan')->row() ?? new stdClass();
         $data['posisi'] = $this->db->get('posisi')->result();
         $data['method'] = $method;
 
@@ -41,14 +41,28 @@ class KaryawanController extends CI_Controller
                 $data = array(
                     'nama_karyawan' => $this->input->post('nama_karyawan'),
                     'posisi_id' => $this->input->post('posisi_id'),
+                );                
+
+                $data_user = array(
+                    'users_name' => $this->input->post('nama_karyawan'),
+                    'email' => $this->input->post('email'),
+                    'username' => strtolower(explode('@', $this->input->post('email'))[0]),
+                    'password' => password_hash(123456, PASSWORD_DEFAULT),
+                    'role_id' => 2
                 );
 
                 if ($method == 'add') {
-                    $this->db->insert('karyawan', $data);
+                    $this->form_validation->set_rules('email', 'email', 'required|trim|is_unique[users.email]');
+                    if ($this->form_validation->run() == TRUE) {
+                        $this->db->insert('karyawan', $data);
+                        $data_user['karyawan_id'] = $this->db->insert_id();
+                        $this->db->insert('users', $data_user);
+                    }
                 }else if ($method == 'edit') {
                     $this->db->where('id_karyawan', $id_karyawan)->update('karyawan', $data);
+                    $this->db->where('karyawan_id', $id_karyawan)->update('users', $data_user);
                 }
-                
+                $this->session->set_flashdata('msg', 'Berhasil');
                 redirect('KaryawanController');
             }
         }
@@ -62,6 +76,8 @@ class KaryawanController extends CI_Controller
     function delete($id_karyawan)
     {
         $this->db->where('id_karyawan', $id_karyawan)->delete('karyawan');
+        $this->db->where('karyawan_id', $id_karyawan)->delete('users');
+        $this->session->set_flashdata('msg', 'Berhasil');
         redirect('KaryawanController');
     }
 }

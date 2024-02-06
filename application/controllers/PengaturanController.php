@@ -54,6 +54,7 @@ class PengaturanController extends CI_Controller
                 );
                 $this->db->where('id_pengaturan', 1)->update('pengaturan', $data);
                 
+                $this->session->set_flashdata('msg', 'Berhasil');
                 redirect('PengaturanController');
             }
         }
@@ -62,11 +63,5 @@ class PengaturanController extends CI_Controller
         $this->load->view('backend/dashboard/templates/sidebar');
         $this->load->view('backend/content/pengaturan/form', $data);
         $this->load->view('backend/dashboard/templates/footer');
-    }
-
-    function delete($id_pengaturan)
-    {
-        $this->db->where('id_pengaturan', $id_pengaturan)->delete('pengaturan');
-        redirect('PengaturanController');
     }
 }

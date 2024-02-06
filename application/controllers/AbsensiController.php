@@ -30,11 +30,12 @@ class AbsensiController extends CI_Controller
         $data['judul'] = 'Absensi';
         $data['bulan'] = $_POST['bulan'] ?? date('m');
         $data['tahun'] = $_POST['tahun'] ?? date('Y');
-        $data['karyawan_id'] = $_POST['karyawan_id'] ?? 0;
+        $data['karyawan_id'] = isset($_POST['karyawan_id']) && $_POST['karyawan_id'] != '' ? $_POST['karyawan_id'] : 0;
         if ($_SESSION['role_id'] == 2) {
             $data['karyawan_id'] = $_SESSION['karyawan_id'];
         }
         $data['karyawan'] = $this->db->get('karyawan')->result();
+        $data['this_karyawan'] = $this->db->join('posisi', 'posisi.id_posisi = karyawan.posisi_id')->get_where('karyawan', ['id_karyawan' => $data['karyawan_id']])->row();
         $data['absensi'] = $this->generateAbsensi($data['bulan'], $data['tahun'], $data['karyawan_id']);
 
         $this->load->view('backend/dashboard/templates/header', $data);
@@ -50,6 +51,8 @@ class AbsensiController extends CI_Controller
         $start_lembur = $this->time_setting['start_lembur'];
         return $this->db->query("
         SELECT
+        nama_karyawan,
+        nama_posisi,
         id_karyawan,
         DATE( A.waktu_checkin ) AS tanggal,
         MAX(TIME_FORMAT( A.waktu_checkin, '%H:%i:%s' )) AS waktu_checkin,
@@ -71,6 +74,7 @@ class AbsensiController extends CI_Controller
     FROM
         kehadiran A
         JOIN karyawan B ON A.karyawan_id = B.id_karyawan
+        JOIN posisi C ON B.posisi_id = C.id_posisi
     WHERE
         karyawan_id = $karyawan_id
         AND MONTH ( A.waktu_checkin ) = $bulan
@@ -121,7 +125,10 @@ class AbsensiController extends CI_Controller
                         $this->db->insert('kehadiran', $insert);
                     }
                     $i++;
-                }   
+                }  
+                
+                $this->session->set_flashdata('msg', 'Berhasil');
+                redirect('AbsensiController');
       
               } catch (Exception $e) {
                 die('Error loading file "' . pathinfo($inputFileName, PATHINFO_BASENAME)

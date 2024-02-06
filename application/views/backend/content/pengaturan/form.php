@@ -50,7 +50,7 @@
                             <!-- /.card-body -->
                             <div class="card-footer">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <button id="back-button" data-url="<?= base_url('Nama Posisi/data_pengaturan') ?>"
+                                <button id="back-button" data-url="<?= base_url('PengaturanController') ?>"
                                     class="btn btn-secondary">Kembali</button>
                             </div>
                         </form>
