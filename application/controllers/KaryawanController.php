@@ -33,7 +33,7 @@ class KaryawanController extends CI_Controller
         $data['method'] = $method;
 
         if ($_POST) {
-            $this->form_validation->set_rules('id_karyawan', 'id_karyawan', 'required|trim');
+            $this->form_validation->set_rules('id_karyawan', 'id_karyawan', 'is_unique[karyawan.id_karyawan]|required|trim');
             $this->form_validation->set_rules('nama_karyawan', 'nama_karyawan', 'required|trim');
             $this->form_validation->set_rules('jenis_kelamin', 'jenis_kelamin', 'required|trim');
             $this->form_validation->set_rules('alamat', 'alamat', 'required|trim');
