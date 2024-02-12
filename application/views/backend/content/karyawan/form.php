@@ -27,7 +27,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label for="id_karyawan">Nomer Karyawan:</label>
-                                    <input <?= $method=='edit' ? 'readonly' : '' ?> type="number" class="form-control" id="id_karyawan" placeholder="Nomer Karyawan"
+                                    <input <?= $method=='edit' ? 'readonly' : '' ?> type="text" class="form-control" id="id_karyawan" placeholder="Nomer Karyawan"
                                         name="id_karyawan" value="<?php echo $karyawan->id_karyawan ?? NULL ?>">
                                     <?php echo form_error('id_karyawan', '<small class="text-danger">', '</small>'); ?>
                                 </div>
