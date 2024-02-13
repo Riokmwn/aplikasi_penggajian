@@ -76,7 +76,7 @@ class AbsensiController extends CI_Controller
         JOIN karyawan B ON A.karyawan_id = B.id_karyawan
         JOIN posisi C ON B.posisi_id = C.id_posisi
     WHERE
-        karyawan_id = $karyawan_id
+        karyawan_id = '$karyawan_id'
         AND MONTH ( A.waktu_checkin ) = $bulan
         AND YEAR ( A.waktu_checkin ) = $tahun
     GROUP BY

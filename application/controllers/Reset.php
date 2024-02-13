@@ -7,6 +7,8 @@ class Reset extends CI_Controller
     {
         $this->db->query("TRUNCATE kehadiran");
         $this->db->query("TRUNCATE rekap_gaji_karyawan");
+        //$this->db->query("TRUNCATE karyawan");
+       // $this->db->query("DELETE FROM users WHERE `id_users` > 1");
         redirect('AbsensiController/');
     }
 }

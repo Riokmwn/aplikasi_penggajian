@@ -168,7 +168,7 @@ class GajiController extends CI_Controller
                             kehadiran A
                             JOIN karyawan B ON A.karyawan_id = B.id_karyawan
                         WHERE
-                            karyawan_id = $karyawan_id
+                            karyawan_id = '$karyawan_id'
                             AND MONTH ( A.waktu_checkin ) = $bulan
                             AND YEAR ( A.waktu_checkin ) = $tahun
                         GROUP BY

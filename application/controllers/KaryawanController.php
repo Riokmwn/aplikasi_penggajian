@@ -50,11 +50,16 @@ class KaryawanController extends CI_Controller
                 );                
 
                 $data_user = array(
+                    'karyawan_id' => $this->input->post('id_karyawan'),
                     'users_name' => $this->input->post('nama_karyawan'),
                     'email' => $this->input->post('email'),
                     'username' => strtolower(explode('@', $this->input->post('email'))[0]),
                     'password' => password_hash(123456, PASSWORD_DEFAULT),
                     'role_id' => 2
+                );
+
+                $data_kid = array(
+                    'karyawan_id' => $this->input->post('id_karyawan'),
                 );
 
                 if ($method == 'add') {
@@ -68,6 +73,8 @@ class KaryawanController extends CI_Controller
                 }else if ($method == 'edit') {
                     $this->db->where('id_karyawan', $id_karyawan)->update('karyawan', $data);
                     $this->db->where('karyawan_id', $id_karyawan)->update('users', $data_user);
+                    $this->db->where('karyawan_id', $id_karyawan)->update('rekap_gaji_karyawan', $data_kid);
+                    $this->db->where('karyawan_id', $id_karyawan)->update('kehadiran', $data_kid);
                 }
                 $this->session->set_flashdata('msg', 'Berhasil');
                 redirect('KaryawanController');
